@@ -512,60 +512,64 @@ window.INF_SETS.clue = {
 
     /* ───────── Level 5 · FK 4.0 ───────── */
     5: [
-      { title: 'Leo\'s Craft-Stick Bridge', genre: 'story',
+      { title: 'Shooting Stars Beyond the City', genre: 'story',
         paragraphs: [
-          'For two weeks, Leo\'s kitchen table was covered with craft sticks and bottles of glue. Every evening after dinner, he worked there until his mom told him it was time for bed. His fingers were sticky, and tiny bits of dried glue clung to his sleeves.',
-          'The science fair rule was simple. Each bridge had to hold a pile of heavy books without breaking. On Sunday, Leo tested his first bridge with three math books. There was a loud crack, and broken sticks flew across the floor. Leo stared at the pieces for a long time without saying a word.',
-          'The next morning, his older sister Nina sat down beside him at the table. She drew a row of triangles on a piece of paper and slid it over to him. "Many bridges in the city use this shape," she said. Leo studied the drawing and then grabbed a fresh bag of sticks.',
-          'At the fair, a judge stacked book after book on top of Leo\'s bridge. A crowd of kids gathered around the table to watch. The bridge did not bend or wobble even a little. Before the fair ended, the judge pinned a shiny blue ribbon to Leo\'s poster.'
+          'The radio said that Saturday night would be the best night of the year to see shooting stars. Ines wrote STARS in purple letters on the calendar and drew tiny stars around the date. She had never seen a shooting star.',
+          'On Saturday night, Ines and her mom carried a blanket up to the roof of their building. Above them, the sky glowed a dull orange from the streetlights and store signs below. Ines lay on her back and counted the stars she could see: one, two, three. After a while, she sat up, hugged her knees and let out a long, slow sigh.',
+          'Mom looked at Ines and then up at the orange sky before she grabbed the car keys. They drove out of the city, past the last gas station, until dark farm fields stretched along both sides of the road. Mom pulled over, switched off the headlights and spread the blanket on the hood of the car.',
+          'Ines leaned back against the windshield. Thousands of stars sparkled over the field. Then a bright streak zipped across the sky, and then another. Ines grabbed Mom\'s arm and squealed so loudly that a cow mooed somewhere in the dark.',
+          'Hours later, the car rolled back into the city. Ines\'s head rested against the window, and her eyes were closed. A small smile stayed on her face the whole way home.'
         ],
         items: [
           { id: 'C01', type: 'hot', skill: 'Finding clues',
-            q: 'Click on the sentence in paragraph 2 that shows Leo is upset about his first bridge.',
+            q: 'Click on the sentence in paragraph 2 that shows Ines is disappointed.',
             para: 2,
-            answer: 'Leo stared at the pieces for a long time without saying a word.',
+            answer: 'After a while, she sat up, hugged her knees and let out a long, slow sigh.',
             notes: {
-              'There was a loud crack, and broken sticks flew across the floor.': 'This shows what happened to the bridge. It does not show how Leo feels about it.',
-              'On Sunday, Leo tested his first bridge with three math books.': 'This tells what Leo did. It does not show how he feels.'
+              'Above them, the sky glowed a dull orange from the streetlights and store signs below.': 'This tells about the sky. It does not show how Ines feels.',
+              'Ines lay on her back and counted the stars she could see: one, two, three.': 'This tells what Ines could see. Look for what she does next.',
+              'On Saturday night, Ines and her mom carried a blanket up to the roof of their building.': 'This tells where Ines and Mom went. It does not show how Ines feels.'
             },
-            why: 'Paragraph 2 says Leo stared at the pieces for a long time without a word. People go quiet and stare when something sad happens. So Leo is upset about his first bridge.' },
+            why: 'Disappointed means sad that something did not go the way you hoped. Paragraph 2 says Ines hugged her knees and let out a long, slow sigh. People do that when they feel let down. So Ines is disappointed.' },
           { id: 'C02', type: 'hot', skill: 'Finding clues',
-            q: 'Click on the sentence in the passage that BEST shows Leo is going to try again.',
-            answer: 'Leo studied the drawing and then grabbed a fresh bag of sticks.',
+            q: 'Click on the sentence in the passage that BEST shows Ines is very excited when she sees the shooting stars.',
+            answer: 'Ines grabbed Mom\'s arm and squealed so loudly that a cow mooed somewhere in the dark.',
             notes: {
-              'She drew a row of triangles on a piece of paper and slid it over to him.': 'This is what Nina does. Look for what Leo does next.',
-              'At the fair, a judge stacked book after book on top of Leo\'s bridge.': 'This happens at the fair, after Leo already tried again. Look for the moment he decides to try.'
+              'Then a bright streak zipped across the sky, and then another.': 'This tells what Ines sees. Look for what Ines does when she sees it.',
+              'Ines wrote STARS in purple letters on the calendar and drew tiny stars around the date.': 'This happens days before the big night. Look for what Ines does when she sees the shooting stars.',
+              'A small smile stayed on her face the whole way home.': 'This is on the ride home, after the shooting stars. Look for the moment she sees them.',
+              'Thousands of stars sparkled over the field.': 'This tells about the sky. It does not show what Ines does.'
             },
-            why: 'Paragraph 3 says Leo studied Nina\'s drawing and grabbed a fresh bag of sticks. You need new sticks to build a new bridge. So Leo is going to try again.' },
+            why: 'Paragraph 4 says Ines grabbed Mom\'s arm and squealed so loudly that a cow mooed. People grab and squeal when they are very excited. So Ines is very excited when she sees the shooting stars.' },
           { id: 'C03', type: 'mc', skill: 'Supporting detail', evidence: true,
-            q: 'Which sentence from the passage BEST shows that the second bridge was very strong?',
+            q: 'Which sentence from the passage BEST shows that Ines fell asleep on the way home?',
             choices: [
-              'The bridge did not bend or wobble even a little.',
-              'On Sunday, Leo tested his first bridge with three math books.',
-              'Each bridge had to hold a pile of heavy books without breaking.',
-              'A crowd of kids gathered around the table to watch.'
+              'Ines\'s head rested against the window, and her eyes were closed.',
+              'Hours later, the car rolled back into the city.',
+              'A small smile stayed on her face the whole way home.',
+              'Ines lay on her back and counted the stars she could see: one, two, three.'
             ],
-            kinds: [null, 'wrongtime', 'notproof', 'notproof'],
+            kinds: [null, 'notproof', 'notproof', 'wrongtime'],
             notes: [null,
-              'Paragraph 2 is about the first bridge. That bridge broke.',
-              'Paragraph 2 tells the rule. It does not show how strong Leo\'s bridge was.',
-              'Paragraph 4 says kids came to watch. That does not show the bridge was strong.'],
-            why: 'Paragraph 4 says the bridge did not bend or wobble at all, even with book after book on it. A weak bridge would bend or break. So the second bridge was very strong.' },
-          { id: 'C04', type: 'mc', skill: 'Making inferences', para: 1,
-            q: 'Read paragraph 1. What can you infer from the clues in paragraph 1?',
+              'Paragraph 5 tells when they got back. It does not show that Ines was asleep.',
+              'Paragraph 5 says Ines was smiling. A smile does not show that she was asleep.',
+              'Paragraph 2 is on the roof, not on the way home. Ines was awake and counting.'],
+            why: 'Paragraph 5 says Ines\'s head rested on the window, and her eyes were closed. It was very late at night. People close their eyes and rest their heads when they sleep. So Ines fell asleep on the way home.' },
+          { id: 'C04', type: 'mc', skill: 'Making inferences', para: 3,
+            q: 'Read paragraph 3. What can you infer from the clues in paragraph 3?',
             choices: [
-              'Leo worked very hard on his bridge.',
-              'Leo finished his bridge in just one night.',
-              'Leo\'s mom built most of the bridge for him.',
-              'Leo does not like to make things with glue.'
+              'Mom wanted a darker place to see the stars.',
+              'Mom wanted to go home and go to sleep.',
+              'The car ran out of gas by the farm fields.',
+              'Mom was upset with Ines for sighing so loudly.'
             ],
-            kinds: [null, 'opposite', 'wrongwho', 'opposite'],
+            kinds: [null, 'opposite', 'opposite', 'noclue'],
             notes: [null,
-              'Paragraph 1 says the sticks were on the table for two weeks. That is not one night.',
-              'Paragraph 1 says Leo worked until his mom said it was bedtime. Leo did the work, not his mom.',
-              'Paragraph 1 says Leo worked on it every evening. He would not do that if he did not like it.'],
-            why: 'Paragraph 1 says Leo worked every evening for two weeks. It says his fingers were sticky with glue. Working that long takes a lot of effort. So Leo worked very hard on his bridge.',
-            chart: { facts: 'Leo works every evening for two weeks, and his fingers are sticky with glue.', know: 'Working on something every day for a long time takes a lot of effort.', conclusion: 'Leo worked very hard on his bridge.' } }
+              'Paragraph 3 says Mom drove out of the city. That is away from home, not toward it.',
+              'Paragraph 3 says Mom pulled over and switched off the headlights. She stopped the car on purpose.',
+              'Paragraph 3 does not say Mom was upset.'],
+            why: 'Paragraph 3 says Mom looked up at the orange sky. Then she drove out to dark farm fields and switched off the headlights. Stars are easier to see where it is dark. So Mom wanted a darker place to see the stars.',
+            chart: { facts: 'Mom looked at the orange sky and drove out to dark farm fields.', know: 'Stars are easier to see where there are no bright lights.', conclusion: 'Mom wanted a darker place to see the stars.' } }
         ] },
 
       { title: 'The Red Mitten on the Fence', genre: 'story',
