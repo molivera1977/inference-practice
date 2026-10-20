@@ -1053,3 +1053,9 @@ body.comp-active .timer-row { margin: -6px 0 6px; }
 body.comp-active .timer-display { font-size: 1rem; padding: 3px 12px; }
 body.comp-active .story-scroll { max-height: calc(100vh - 90px); }
 .ip-partA-why { background: #e4f4ea; border: 2px solid #8fd1a3; border-radius: 12px; padding: 10px 14px; }
+
+/* The flow: ▶ Continue on the menu, ▶ Next on the end screen */
+.ip-continue { width: 100%; background: #8e44ad; box-shadow: 0 5px 0 #6c3483; margin-bottom: 10px; font-size: 1.25rem; }
+.ip-continue:hover { box-shadow: 0 8px 0 #6c3483; }
+.ip-menu-note { margin: 12px 0 8px; font-size: 1.05rem; color: #333; }
+#next-step-btn.hidden, #continue-btn.hidden { display: none !important; }

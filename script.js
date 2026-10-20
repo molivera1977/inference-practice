@@ -505,7 +505,31 @@ function nextLevelFor(name, section) {
   return LEVELS[LEVELS.length - 1];
 }
 
+/* ── THE FLOW (Marcos 10/20: "I'd prefer that they flow automatically" → "Next activity first") ──
+   The class's order: every activity at Level 1, then every activity at Level 2, … up to Level 6.
+   A student's next step is the first level in that order not passed yet (null = all 48 passed).
+   The ▶ Continue button on the menu and the ▶ Next button on the end screen start it. The menu
+   stays, so a student can still redo any open level. */
+const FLOW = LEVELS.flatMap(L => Object.keys(ACTIVITIES).map(k => ({ section: k, level: L })));
+function nextStep(name) {
+  return FLOW.find(st => !passed(name, st.section, st.level)) || null;
+}
+/* The step after this one in the order (the share link and Teacher Access save no scores) */
+function stepAfter(section, level) {
+  const i = FLOW.findIndex(st => st.section === section && st.level === level);
+  return i >= 0 && i + 1 < FLOW.length ? FLOW[i + 1] : null;
+}
+function stepLabel(st) { return `${ACTIVITIES[st.section].short} · Level ${st.level}`; }
+
 function applyLocks(name) {
+  const cont = document.getElementById('continue-btn');
+  if (cont) {
+    const st = nextStep(name);
+    cont.classList.toggle('hidden', !st);
+    if (st) cont.querySelector('.ip-continue-what').textContent = stepLabel(st);
+    const done = document.getElementById('all-done-note');
+    if (done) done.classList.toggle('hidden', !!st);
+  }
   Object.values(ACTIVITIES).forEach(act => {
     const btn = document.getElementById(`btn-${act.key}`);
     if (!btn) return;
@@ -952,6 +976,13 @@ const app = {
   },
 
   /* ── ATTEMPT START ── */
+  // ▶ Continue: the student's next step in the class's order (see FLOW)
+  continueFlow() {
+    if (!this.studentName) return;
+    const st = nextStep(this.studentName);
+    if (st) this.attemptStart(st.section, st.level);
+  },
+
   // The big button on an activity starts the student's next level
   startNext(section) {
     if (!this.studentName) return;
@@ -2253,48 +2284,55 @@ const app = {
     this.attemptStart(this.currentSection, this.level || 1);
   },
 
-  // "Go Up a Level": the next level of the same activity (shown once it is open)
-  goUp() {
+  // "▶ Next": the next step in the class's order (see FLOW)
+  goNext() {
     stopConfetti();
-    if (!this.studentName || !this.currentSection) { this.restart(); return; }
-    this.attemptStart(this.currentSection, (this.level || 1) + 1);
+    if (!this.studentName || !this._nextStep) { this.restart(); return; }
+    this.attemptStart(this._nextStep.section, this._nextStep.level);
   },
 
-  // "Do This Level Again" always shows (no try limit). "Go Up a Level" shows when the next
-  // level is open. The note under them says what opened, or what to get.
+  // The end screen's main button takes the student on: ▶ Next (the next step in the order) after a
+  // pass, 🔄 Try Again while this level is still the next step. Back to My Activities stays.
   _showAgainButton() {
     const btn  = document.getElementById('again-btn');
-    const up   = document.getElementById('up-btn');
+    const next = document.getElementById('next-step-btn');
     const note = document.getElementById('again-note');
     if (!btn || !note) return;
-    btn.classList.remove('hidden');
     const L = this.level || 1;
-    const top = LEVELS[LEVELS.length - 1];
-    const sub = document.getElementById('again-sub');
-    if (sub) sub.textContent = `Level ${L} again, from the start.`;
-    const name = this.studentName;
-    const upOpen = L < top && (SHARE_MODE || reviewMode || !gateWait(name, this.currentSection, L + 1));
-    if (up) {
-      up.classList.toggle('hidden', !upOpen);
-      const upSub = document.getElementById('up-sub');
-      if (upSub) upSub.textContent = `Level ${L + 1}: a harder passage, the same kinds of questions.`;
-    }
     const total = this.currentBank.length;
     const thisTry = total ? this.score / total * 100 >= PASS_PCT : false;
-    const next = nextActivity(this.currentSection);
     const need = needFor(this.currentSection, L);
+    // The share link and Teacher Access save no scores: they follow the order from this level
+    const st = SHARE_MODE || reviewMode
+      ? (thisTry ? stepAfter(this.currentSection, L) : { section: this.currentSection, level: L })
+      : nextStep(this.studentName);
+    const same = !!st && st.section === this.currentSection && st.level === L;
+    this._nextStep = st && !same ? st : null;
+    if (next) {
+      next.classList.toggle('hidden', !this._nextStep || reviewMode);
+      if (this._nextStep) {
+        next.querySelector('.ip-next-what').textContent = stepLabel(this._nextStep);
+        const sub = document.getElementById('next-sub');
+        if (sub) sub.textContent = this._nextStep.section === this.currentSection
+          ? 'A harder passage, the same kinds of questions.'
+          : `Level ${this._nextStep.level} · ${ACTIVITIES[this._nextStep.section].sub}`;
+      }
+    }
+    btn.classList.remove('hidden');
+    btn.querySelector('.again-what').textContent = same ? `🔄 Try Level ${L} Again` : '🔄 Do This Level Again';
+    const sub = document.getElementById('again-sub');
+    if (sub) sub.textContent = same ? `Get ${need} of ${total} right to move on.` : 'Start this one over.';
     let text = '';
-    if (SHARE_MODE || reviewMode) text = '';
-    else if (thisTry) {
-      const opened = [];
-      if (L < top) opened.push(`Level ${L + 1}`);
-      if (L === 1 && next && !gateWait(name, next.key, 1)) opened.push(`${next.short} Level 1`);
-      text = opened.length ? `🔓 You got ${need} or more right. ${opened.join(' and ')} ${opened.length > 1 ? 'are' : 'is'} open!`
-                           : `🏆 You passed Level ${L}! Do any level again anytime.`;
-    } else if (passed(name, this.currentSection, L)) text = `✅ You passed Level ${L} before. ${L < top ? `Level ${L + 1} is open.` : ''}`;
-    else text = `Get ${need} of ${total} right to open Level ${L + 1 <= top ? L + 1 : L}. Do this level again to try!`;
+    if (reviewMode) text = '';
+    else if (!st) text = '🏆 You passed every level of every activity! Do any of them again anytime.';
+    else if (same) text = `Get ${need} of ${total} right to move on. Tap Try Again. You can do it!`;
+    else if (thisTry) text = `🔓 You got ${need} or more right! Next up: ${stepLabel(st)}.`;
+    else text = `Next up: ${stepLabel(st)}.`;
     note.classList.toggle('hidden', !text);
     note.textContent = text;
+    // the main button goes first
+    const first = this._nextStep && !reviewMode ? next : btn;
+    if (first && first.parentElement && first.parentElement.firstElementChild !== first) first.parentElement.prepend(first);
   },
 
   tryAgain() {

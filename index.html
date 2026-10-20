@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=ip1" />
+  <link rel="stylesheet" href="style.css?v=ip2" />
 </head>
 <body>
 <canvas id="confetti-canvas"></canvas>
@@ -92,14 +92,17 @@
       <!-- STEP 2 — CHOOSE A SECTION -->
       <div id="section-select" class="hidden">
         <div class="step-card">
-          <span class="step-label">Step 2 — Choose an Activity</span>
+          <span class="step-label">Step 2 — Tap Continue</span>
+          <button class="start-btn ip-continue" id="continue-btn" onclick="app.continueFlow()">▶ Continue: <span class="ip-continue-what"></span><span class="form-btn-sub">Your next activity is ready.</span></button>
+          <p id="all-done-note" class="again-note hidden">🏆 You passed every level of every activity! Pick any one below to do again.</p>
+          <p class="ip-menu-note">Or pick any open activity to do again:</p>
           <div id="activity-menu"></div>
         </div>
         <div style="background:#f0f4ff;border:2px solid #a9c4f5;border-radius:12px;
                      padding:12px 16px;margin-bottom:12px;font-size:0.88rem;color:#2c3e50;line-height:1.6;">
-          📋 <strong>Rules:</strong> Every activity has 6 levels. Start at <strong>Level 1</strong>.
-          Get <strong>6 out of 8</strong> right to open the next level. Get 6 out of 8 on Level 1 to open the next activity.
-          You can do any open level again <strong>as many times as you want</strong>.
+          📋 <strong>Rules:</strong> Tap <strong>▶ Continue</strong>. The site takes you through in order:
+          every activity at <strong>Level 1</strong>, then every activity at Level 2, and so on up to Level 6.
+          Get <strong>6 out of 8</strong> right to move on. You can do any open level again <strong>as many times as you want</strong>.
         </div>
         <div style="text-align:center;margin-bottom:8px;">
           <button class="score-btn" onclick="app.showScores()">📊 View Score History</button>
@@ -169,9 +172,9 @@
     <div class="dir-section form-dir">
       <div class="dir-row">
         <button class="speak-btn" onclick="speakDir(this)">🔊</button>
-        <h3 style="margin:0;">📚 Step 2 — Pick an Activity</h3>
+        <h3 style="margin:0;">📚 Step 2 — Tap Continue</h3>
       </div>
-      <p class="dir-text">There are 8 activities. Do them in order, 1 to 8. Every activity has 6 levels. Level 1 has the easiest passages. Your teacher will tell you which activity to do today.</p>
+      <p class="dir-text">After you sign in, tap the big Continue button. It starts your next activity. There are 8 activities, and each one has 6 levels. You do Level 1 of every activity first. Then you do Level 2 of every activity, and so on.</p>
     </div>
 
     <div class="dir-section story-dir">
@@ -187,7 +190,7 @@
         <button class="speak-btn" onclick="speakDir(this)">🔊</button>
         <h3 style="margin:0;">⬆️ Climb the Levels</h3>
       </div>
-      <p class="dir-text">Get 6 out of 8 right to open the next level. Each level has a harder passage and the same kinds of questions. You can do any open level again as many times as you want. Practice makes it stick!</p>
+      <p class="dir-text">Get 6 out of 8 right to move on. Then tap Next. Next takes you to the next activity. If you get fewer than 6, tap Try Again. Each level has a harder passage and the same kinds of questions. Practice makes it stick!</p>
     </div>
 
     <div class="dir-section read-dir">
@@ -336,9 +339,9 @@
       <div id="missed-items"></div>
     </div>
     <div class="end-btns">
-      <button class="start-btn" onclick="app.backToMenu()">📋 Back to My Activities<span class="form-btn-sub">Pick another activity. You stay signed in.</span></button>
-      <button class="start-btn hidden" id="up-btn" style="background:#8e44ad;box-shadow:0 5px 0 #6c3483;" onclick="app.goUp()">⬆️ Go Up a Level<span class="form-btn-sub" id="up-sub">A harder passage, the same kinds of questions.</span></button>
-      <button class="start-btn" id="again-btn" style="background:#27ae60;box-shadow:0 5px 0 #1e8449;" onclick="app.doAgain()">🔄 Do This Level Again<span class="form-btn-sub" id="again-sub">Start this one over.</span></button>
+      <button class="start-btn hidden" id="next-step-btn" style="background:#8e44ad;box-shadow:0 5px 0 #6c3483;" onclick="app.goNext()">▶ Next: <span class="ip-next-what"></span><span class="form-btn-sub" id="next-sub"></span></button>
+      <button class="start-btn" id="again-btn" style="background:#27ae60;box-shadow:0 5px 0 #1e8449;" onclick="app.doAgain()"><span class="again-what">🔄 Do This Level Again</span><span class="form-btn-sub" id="again-sub">Start this one over.</span></button>
+      <button class="start-btn" onclick="app.backToMenu()">📋 Back to My Activities<span class="form-btn-sub">Pick any open activity. You stay signed in.</span></button>
     </div>
     <p id="again-note" class="again-note hidden"></p>
     <div style="text-align:center;margin-top:14px;">
@@ -415,6 +418,6 @@
 <script src="data/act-twopart.js?v=ip1"></script>
 <script src="data/act-nonfiction.js?v=ip1"></script>
 <script src="data/act-together.js?v=ip1"></script>
-<script src="script.js?v=ip2"></script>
+<script src="script.js?v=ip3"></script>
 </body>
 </html>
