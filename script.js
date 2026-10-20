@@ -2478,6 +2478,6 @@ app.init();
   btn.textContent = '🔒 Not Open Yet';
   const note = document.createElement('p');
   note.className = 'locked-note';
-  note.textContent = "Mr. O will let you know when R.A.D. Practice is ready!";
+  note.textContent = "Mr. O will let you know when Inference Practice is ready!";
   btn.insertAdjacentElement('afterend', note);
 })();
