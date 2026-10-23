@@ -522,9 +522,9 @@ function stepAfter(section, level) {
 function stepLabel(st) { return `${ACTIVITIES[st.section].short} · Level ${st.level}`; }
 
 function applyLocks(name) {
+  const st = nextStep(name);
   const cont = document.getElementById('continue-btn');
   if (cont) {
-    const st = nextStep(name);
     cont.classList.toggle('hidden', !st);
     if (st) cont.querySelector('.ip-continue-what').textContent = stepLabel(st);
     const done = document.getElementById('all-done-note');
@@ -550,6 +550,8 @@ function applyLocks(name) {
       chip.classList.toggle('locked', !!wait);
       chip.classList.toggle('passed', !wait && passed(name, act.key, n));
       chip.classList.toggle('current', !wait && n === L && !passed(name, act.key, n));
+      // the ONE level button that is the student's next step pulses, with ▶ Continue (Marcos 10/22)
+      chip.classList.toggle('is-next', !!st && st.section === act.key && st.level === n);
       chip.textContent = wait ? `🔒 Level ${n}` : passed(name, act.key, n) ? `✅ Level ${n}` : `Level ${n}`;
       chip.title = wait ? wait : best ? `Best: ${best.score} of ${best.total}` : 'Not tried yet';
       chip.setAttribute('aria-label', `Level ${n}. ${chip.title}.`);
