@@ -521,6 +521,46 @@ function stepAfter(section, level) {
 }
 function stepLabel(st) { return `${ACTIVITIES[st.section].short} · Level ${st.level}`; }
 
+/* ── YOUR PATH (Marcos 10/22: the activity grid was "slightly confusing to a kid" · "How would they
+   know about finishing all level 1s") ──
+   Under ▶ Continue: a strip of the six levels (✅ done · ▶ now · plain = later) and this level's 8
+   activities (✅ done · ▶ you are here · ○ later), with how many are done and what comes after.
+   The full list of activities and levels hides behind "🔁 Do an activity again". */
+function levelDone(name, L) {
+  return Object.keys(ACTIVITIES).every(k => passed(name, k, L));
+}
+function pathHTML(name) {
+  const st = nextStep(name);
+  const top = LEVELS[LEVELS.length - 1];
+  const L = st ? st.level : top;
+  const keys = Object.keys(ACTIVITIES);
+  const done = keys.filter(k => passed(name, k, L)).length;
+  const strip = LEVELS.map(n => {
+    const state = levelDone(name, n) ? 'done' : n === L ? 'now' : 'later';
+    const mark = state === 'done' ? '✅ ' : state === 'now' ? '▶ ' : '';
+    return `<span class="ip-strip-lvl ip-strip-${state}">${mark}Level ${n}</span>`;
+  }).join('');
+  const rows = keys.map((k, i) => {
+    const ok = passed(name, k, L);
+    const here = st && st.section === k && st.level === L;
+    const cls = ok ? 'done' : here ? 'here' : 'later';
+    const mark = ok ? '✅' : here ? '▶' : '○';   // later in the path (not locked: the list may have it open)
+    return `<li class="ip-path-row ip-path-${cls}"><span class="ip-path-mark" aria-hidden="true">${mark}</span>` +
+      `<span class="ip-path-num" aria-hidden="true">${i + 1}</span><span class="ip-path-name">${escapeHtml(ACTIVITIES[k].short)}</span>` +
+      (here ? '<span class="ip-here-tag">← you are here</span>' : '') + `</li>`;
+  }).join('');
+  const after = !st ? 'You finished every level of every activity!'
+    : L < top ? `When all 8 are done, Level ${L + 1} starts. Level ${L + 1} has harder passages and the same kinds of questions.`
+    : 'This is the last level!';
+  const say = st
+    ? `Your path. You are on Level ${L} of ${top}. You are on ${ACTIVITIES[st.section].short}. ${done} of ${keys.length} activities are done at Level ${L}. ${after}`
+    : `Your path. ${after}`;
+  return sayBlockHTML('ip-path-say', escapeHtml(say).replace(/^Your path\./, '<strong>Your path.</strong>')) +
+    `<div class="ip-strip" aria-label="The six levels">${strip}</div>` +
+    `<p class="ip-path-head">Level ${L}: ${done} of ${keys.length} done</p>` +
+    `<ol class="ip-path-list">${rows}</ol>`;
+}
+
 function applyLocks(name) {
   const st = nextStep(name);
   const cont = document.getElementById('continue-btn');
@@ -530,6 +570,8 @@ function applyLocks(name) {
     const done = document.getElementById('all-done-note');
     if (done) done.classList.toggle('hidden', !!st);
   }
+  const path = document.getElementById('ip-path');
+  if (path) path.innerHTML = pathHTML(name);
   Object.values(ACTIVITIES).forEach(act => {
     const btn = document.getElementById(`btn-${act.key}`);
     if (!btn) return;
@@ -978,6 +1020,17 @@ const app = {
   },
 
   /* ── ATTEMPT START ── */
+  // "🔁 Do an activity again" opens (and closes) the full list of activities and levels
+  toggleRedo(open) {
+    const list = document.getElementById('redo-list');
+    const btn = document.getElementById('redo-toggle');
+    if (!list || !btn) return;
+    const show = open == null ? list.classList.contains('hidden') : !!open;
+    list.classList.toggle('hidden', !show);
+    btn.setAttribute('aria-expanded', String(show));
+    btn.textContent = show ? '✖ Hide the list' : '🔁 Do an activity again';
+  },
+
   // ▶ Continue: the student's next step in the class's order (see FLOW)
   continueFlow() {
     if (!this.studentName) return;
@@ -2054,6 +2107,8 @@ const app = {
     const pct   = Math.round((this.score / total) * 100);
     const date  = new Date();
 
+    // was this level already passed before this try? (the "you finished Level N" moment needs to know)
+    this._passedBefore = !reviewMode && !SHARE_MODE && passed(this.studentName, this.currentSection, this.level || 1);
     const scores   = JSON.parse(localStorage.getItem(SCORES_KEY) || '[]');
     const attemptNum = this.currentAttemptNum || 1;
     if (!reviewMode && !SHARE_MODE) {   // a visitor's score is never saved, so no attempt lock ever starts
@@ -2115,7 +2170,10 @@ const app = {
 
     if (pct >= 80) startConfetti(pct);
 
-    if (!reviewMode && !SHARE_MODE && allSectionsCompletedOnce(this.studentName)) {
+    // No automatic Score History here (R.A.D. Practice opens it 3 s after an end screen once every
+    // activity is done). With six levels that is every finish after the first trip through Level 1,
+    // and it would cover the next level the student just started from ▶ Next. The button stays.
+    if (false && !reviewMode && !SHARE_MODE && allSectionsCompletedOnce(this.studentName)) {
       setTimeout(() => this.showScores(true), 3000);
     }
   },
@@ -2286,6 +2344,13 @@ const app = {
     this.attemptStart(this.currentSection, this.level || 1);
   },
 
+  // This try finished the last activity of Level L (all 8 now passed at L, and this one was not before)
+  _levelJustDone(L) {
+    if (L >= LEVELS[LEVELS.length - 1]) return false;
+    if (SHARE_MODE || reviewMode) { const st = stepAfter(this.currentSection, L); return !!st && st.level > L; }
+    return !this._passedBefore && levelDone(this.studentName, L);
+  },
+
   // "▶ Next": the next step in the class's order (see FLOW)
   goNext() {
     stopConfetti();
@@ -2320,14 +2385,18 @@ const app = {
           : `Level ${this._nextStep.level} · ${ACTIVITIES[this._nextStep.section].sub}`;
       }
     }
-    btn.classList.remove('hidden');
+    // Marcos 10/22: "let's get rid of this option if the student has passed. There's no reason for it
+    // if they passed." Passed = this level's best try is 70%+ (the share link and Teacher Access: this try).
+    const passedHere = SHARE_MODE || reviewMode ? thisTry : passed(this.studentName, this.currentSection, L);
+    btn.classList.toggle('hidden', passedHere);
     btn.querySelector('.again-what').textContent = same ? `🔄 Try Level ${L} Again` : '🔄 Do This Level Again';
     const sub = document.getElementById('again-sub');
     if (sub) sub.textContent = same ? `Get ${need} of ${total} right to move on.` : 'Start this one over.';
     let text = '';
     if (reviewMode) text = '';
-    else if (!st) text = '🏆 You passed every level of every activity! Do any of them again anytime.';
+    else if (!st) text = '🏆 You finished every level of every activity! Do any of them again anytime.';
     else if (same) text = `Get ${need} of ${total} right to move on. Tap Try Again. You can do it!`;
+    else if (thisTry && this._levelJustDone(L)) text = `🎉 You finished Level ${L} of every activity! Level ${L + 1} starts now: harder passages, the same kinds of questions.`;
     else if (thisTry) text = `🔓 You got ${need} or more right! Next up: ${stepLabel(st)}.`;
     else text = `Next up: ${stepLabel(st)}.`;
     note.classList.toggle('hidden', !text);
@@ -2339,6 +2408,7 @@ const app = {
 
   tryAgain() {
     stopConfetti();
+    this.toggleRedo(false);   // back to the path, list folded away
     this.timerSeconds = 0;
     this.show('start-screen');
     document.getElementById('welcome-panel').classList.add('hidden');

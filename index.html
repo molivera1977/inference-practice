@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=ip3" />
+  <link rel="stylesheet" href="style.css?v=ip4" />
 </head>
 <body>
 <canvas id="confetti-canvas"></canvas>
@@ -94,14 +94,21 @@
         <div class="step-card">
           <span class="step-label">Step 2 — Tap Continue</span>
           <button class="start-btn ip-continue" id="continue-btn" onclick="app.continueFlow()">▶ Continue: <span class="ip-continue-what"></span><span class="form-btn-sub">Your next activity is ready.</span></button>
-          <p id="all-done-note" class="again-note hidden">🏆 You passed every level of every activity! Pick any one below to do again.</p>
-          <p class="ip-menu-note">Or pick any open activity to do again:</p>
-          <div id="activity-menu"></div>
+          <p id="all-done-note" class="again-note hidden">🏆 You passed every level of every activity! You can do any one again.</p>
+          <!-- Your path: the level strip and this level's 8 activities (filled in by script.js) -->
+          <div id="ip-path" class="ip-path"></div>
+          <div class="ip-redo-row">
+            <button type="button" class="ip-redo-btn" id="redo-toggle" aria-expanded="false" aria-controls="redo-list" onclick="app.toggleRedo()">🔁 Do an activity again</button>
+          </div>
+          <div id="redo-list" class="hidden">
+            <p class="ip-menu-note">Pick any open activity and level to do again:</p>
+            <div id="activity-menu"></div>
+          </div>
         </div>
         <div style="background:#f0f4ff;border:2px solid #a9c4f5;border-radius:12px;
                      padding:12px 16px;margin-bottom:12px;font-size:0.88rem;color:#2c3e50;line-height:1.6;">
-          📋 <strong>Rules:</strong> Tap <strong>▶ Continue</strong>. The site takes you through in order:
-          every activity at <strong>Level 1</strong>, then every activity at Level 2, and so on up to Level 6.
+          📋 <strong>Rules:</strong> Tap <strong>▶ Continue</strong>. Your path shows where you are.
+          You do all 8 activities at <strong>Level 1</strong> first. Then Level 2 starts, with harder passages, and so on up to Level 6.
           Get <strong>6 out of 8</strong> right to move on. You can do any open level again <strong>as many times as you want</strong>.
         </div>
         <div style="text-align:center;margin-bottom:8px;">
@@ -418,6 +425,6 @@
 <script src="data/act-twopart.js?v=ip1"></script>
 <script src="data/act-nonfiction.js?v=ip1"></script>
 <script src="data/act-together.js?v=ip1"></script>
-<script src="script.js?v=ip4"></script>
+<script src="script.js?v=ip5"></script>
 </body>
 </html>

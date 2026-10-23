@@ -1077,3 +1077,33 @@ body.comp-active .story-scroll { max-height: calc(100vh - 90px); }
   #continue-btn, #next-step-btn { animation: none; box-shadow: 0 5px 0 #6c3483, 0 0 0 4px rgba(142, 68, 173, 0.45); }
   .ip-lvl.is-next { animation: none; box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.45); }
 }
+
+/* Your path (Marcos 10/22): the level strip and this level's 8 activities, under ▶ Continue */
+.ip-path { margin: 4px 0 6px; }
+.ip-path .ip-path-say { background: #f7f3fb; border: 2px solid #d9c3ea; border-radius: 12px; padding: 10px 14px; }
+.ip-strip { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.ip-strip-lvl { font-family: var(--font-ui); font-size: 1rem; font-weight: 700; padding: 5px 10px; border-radius: 999px;
+                border: 2px solid #c8d0ce; color: #444; background: #fff; }
+.ip-strip-done { border-color: #1e7b45; color: #14532d; background: #e4f4ea; }
+.ip-strip-now  { border-color: #6c3483; color: #fff; background: #8e44ad; }
+.ip-path-head { margin: 6px 0 6px; font-family: var(--font-ui); font-weight: 800; font-size: 1.1rem; color: var(--primary-dark); }
+.ip-path-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ip-path-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 12px; border: 2px solid #e2e6e5;
+               font-family: var(--font-read); font-size: 1.15rem; background: #fff; }
+.ip-path-mark { width: 1.6em; text-align: center; font-size: 1.15rem; }
+.ip-path-num { min-width: 1.8em; height: 1.8em; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+               background: #eef1f0; color: #333; font-family: var(--font-ui); font-weight: 800; font-size: 0.95rem; }
+.ip-path-done { background: #f1faf4; border-color: #b6e2c3; }
+.ip-here-tag { margin-left: auto; font-family: var(--font-ui); font-weight: 800; color: #6c3483; font-size: 1rem; }
+li.ip-path-here { background: #f7f3fb; border-color: #8e44ad; border-width: 3px; }
+.ip-path-later { color: #555; }
+.ip-path-later .ip-path-mark { color: #9aa5a3; font-size: 1.3rem; }
+.ip-redo-row { text-align: center; margin: 14px 0 4px; }
+.ip-redo-btn { font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700; padding: 9px 18px; border-radius: 12px;
+               border: 2px solid var(--primary); background: #fff; color: var(--primary-dark); cursor: pointer; }
+.ip-redo-btn:hover { background: var(--mint); }
+#redo-list.hidden { display: none !important; }
+
+/* The next step's name, big (Marcos 10/22: "the title of the level should be larger") */
+.ip-continue-what { display: block; font-size: 1.55em; line-height: 1.25; margin: 6px 0 4px; letter-spacing: 0.2px; }
+.ip-next-what     { display: block; font-size: 1.35em; line-height: 1.25; margin: 4px 0; }
