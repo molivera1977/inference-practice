@@ -1319,7 +1319,7 @@ const app = {
     this.currentBank = sectionBank(section, level).map(shuffleQ);
     // The lesson cards play on a student's first try of an activity. After a finished try
     // (any level) the climb goes straight to the passage. Teacher Access always shows them.
-    const triedBefore = !reviewMode && !SHARE_MODE && LEVELS.some(L => triesOf(this.studentName, section, L).length);
+    const triedBefore = !reviewMode && LEVELS.some(L => triesOf(this.studentName, section, L).length);
     this.cardsSeen = triedBefore ? [0] : [];
 
     this._enterQuiz();
@@ -2108,10 +2108,13 @@ const app = {
     const date  = new Date();
 
     // was this level already passed before this try? (the "you finished Level N" moment needs to know)
-    this._passedBefore = !reviewMode && !SHARE_MODE && passed(this.studentName, this.currentSection, this.level || 1);
+    this._passedBefore = !reviewMode && passed(this.studentName, this.currentSection, this.level || 1);
     const scores   = JSON.parse(localStorage.getItem(SCORES_KEY) || '[]');
     const attemptNum = this.currentAttemptNum || 1;
-    if (!reviewMode && !SHARE_MODE) {   // a visitor's score is never saved, so no attempt lock ever starts
+    // A GUEST'S VISIT ACTS LIKE A STUDENT'S (Marcos 10/25: "what about RAD and Inference" — the Lab's guest fix): a guest's tries are kept too, so "Your path",
+    // ▶ Continue and the levels move on. share.js keeps them under share_ keys and wipes them on the next visit; nothing is
+    // sent. There is no try limit here, so nothing locks.
+    if (!reviewMode) {
       scores.push({
         name:    this.studentName,
         section: this.currentSection,
@@ -2144,7 +2147,7 @@ const app = {
     if (reviewNextBtn) reviewNextBtn.classList.toggle('hidden', !reviewMode);
 
     document.getElementById('final-score-sub').textContent = SHARE_MODE
-      ? `${SECTION_LABELS[this.currentSection]} · Level ${this.level || 1} · Guest view — this score was not saved`
+      ? `${SECTION_LABELS[this.currentSection]} · Level ${this.level || 1} · Guest view — kept for this visit only, not sent to Mr. O`
       : `${SECTION_LABELS[this.currentSection]} · Level ${this.level || 1} · Attempt ${attemptNum} · ${this.studentName}`;
     document.getElementById('final-msg').textContent = msg;
 
@@ -2347,7 +2350,7 @@ const app = {
   // This try finished the last activity of Level L (all 8 now passed at L, and this one was not before)
   _levelJustDone(L) {
     if (L >= LEVELS[LEVELS.length - 1]) return false;
-    if (SHARE_MODE || reviewMode) { const st = stepAfter(this.currentSection, L); return !!st && st.level > L; }
+    if (reviewMode) { const st = stepAfter(this.currentSection, L); return !!st && st.level > L; }
     return !this._passedBefore && levelDone(this.studentName, L);
   },
 
@@ -2369,8 +2372,8 @@ const app = {
     const total = this.currentBank.length;
     const thisTry = total ? this.score / total * 100 >= PASS_PCT : false;
     const need = needFor(this.currentSection, L);
-    // The share link and Teacher Access save no scores: they follow the order from this level
-    const st = SHARE_MODE || reviewMode
+    // Teacher Access saves no scores: it follows the order from this level (a guest's tries are kept, so a guest goes by them)
+    const st = reviewMode
       ? (thisTry ? stepAfter(this.currentSection, L) : { section: this.currentSection, level: L })
       : nextStep(this.studentName);
     const same = !!st && st.section === this.currentSection && st.level === L;
@@ -2386,8 +2389,8 @@ const app = {
       }
     }
     // Marcos 10/22: "let's get rid of this option if the student has passed. There's no reason for it
-    // if they passed." Passed = this level's best try is 70%+ (the share link and Teacher Access: this try).
-    const passedHere = SHARE_MODE || reviewMode ? thisTry : passed(this.studentName, this.currentSection, L);
+    // if they passed." Passed = this level's best try is 70%+ (Teacher Access: this try).
+    const passedHere = reviewMode ? thisTry : passed(this.studentName, this.currentSection, L);
     btn.classList.toggle('hidden', passedHere);
     btn.querySelector('.again-what').textContent = same ? `🔄 Try Level ${L} Again` : '🔄 Do This Level Again';
     const sub = document.getElementById('again-sub');
