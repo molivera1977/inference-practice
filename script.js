@@ -2007,6 +2007,7 @@ const app = {
      choice did not work), then the chart (Facts From the Text + Things We Know =
      Conclusions We Draw) or, after Part B, the R.A.D. answer Part A and Part B make. */
   confirmAnswer() {
+    if (this.questionLocked) return;   // answered already: a second tap or key must not count it again (10/27)
     if (this.selectedIndices.size === 0) return;
     this.questionLocked = true;
 
@@ -2607,3 +2608,16 @@ app.init();
   note.textContent = "Mr. O will let you know when Inference Practice is ready!";
   btn.insertAdjacentElement('afterend', note);
 })();
+
+/* ── A KEY ON A HIDDEN BUTTON DOES NOTHING (10/27/2026) ──
+   After a tap the keyboard stays on that button, even once it is hidden, so Enter or Space pressed it
+   again: a right answer counted twice (13 of 12 on Vocab Practice) and Next skipped a question.
+   Enter and Space on a button that is hidden or turned off are now ignored. */
+['keydown', 'keyup'].forEach(type => document.addEventListener(type, e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const el = document.activeElement;
+  if (el && el.tagName === 'BUTTON' && (el.disabled || !el.getClientRects().length)) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+}, true));
