@@ -405,6 +405,16 @@ function getFirstName(name) {
   return parts.length > 1 ? parts[1].trim().split(' ')[0] : name.split(' ')[0];
 }
 
+/* Light the word the voice is on. The voice says where it is in the text (charIndex); it does NOT signal every
+   word — Samantha in Chrome gave no signal for "example:" after "For" (measured in Marcos's Chrome 10/28) — so
+   moving one word per signal fell further behind with each skipped word ("the highlighting can't keep up").
+   The spoken text has one token per span, joined by single spaces. */
+function lightAt(spans, text, charIndex) {
+  let j = 0, start = 0;
+  String(text).split(' ').forEach((tok, k) => { if (start <= charIndex) j = k; start += tok.length + 1; });
+  spans.forEach(sp => sp.classList.remove('hl'));
+  if (spans[j]) spans[j].classList.add('hl');
+}
 function wrapWords(html) {
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
@@ -617,7 +627,6 @@ function speakDir(btn) {
   btn.textContent = '⏹';
 
   const speechText = spans.map(s => s.textContent).join(' ');
-  let hlIdx = 0;
   const u = new SpeechSynthesisUtterance(speechText);
   u.lang = 'en-US';
   u.rate = READ_RATE;
@@ -625,8 +634,7 @@ function speakDir(btn) {
   u.onboundary = e => {
     if (e.name !== 'word') return;
     document.querySelectorAll('.dir-text .wrd.hl').forEach(el => el.classList.remove('hl'));
-    if (spans[hlIdx]) spans[hlIdx].classList.add('hl');
-    hlIdx++;
+    lightAt(spans, u.text, e.charIndex);
   };
 
   u.onend = () => {
@@ -657,15 +665,13 @@ function speakEl(btn, el) {
   if (!spans.length) return;
   activeSpeakBtn = btn;
   btn.textContent = '⏹';
-  let hlIdx = 0;
   const u = new SpeechSynthesisUtterance(spokenOf(spans));
   u.lang = 'en-US';
   u.rate = READ_RATE;
   u.onboundary = e => {
     if (e.name !== 'word') return;
     spans.forEach(s => s.classList.remove('hl'));
-    if (spans[hlIdx]) spans[hlIdx].classList.add('hl');
-    hlIdx++;
+    lightAt(spans, u.text, e.charIndex);
   };
   u.onend = () => {
     spans.forEach(s => s.classList.remove('hl'));
@@ -1683,14 +1689,12 @@ const app = {
       const spans = lines[k];
       let text = spokenOf(spans);
       if (!/[.!?:,]["”’]?$/.test(text)) text += '.';
-      let hlIdx = 0;
       const u = new SpeechSynthesisUtterance(text);
       u.lang = 'en-US'; u.rate = 0.82;
       u.onboundary = e => {
         if (e.name !== 'word') return;
         box.querySelectorAll('.wrd.hl').forEach(el => el.classList.remove('hl'));
-        if (spans[hlIdx]) spans[hlIdx].classList.add('hl');
-        hlIdx++;
+        lightAt(spans, u.text, e.charIndex);
       };
       u.onend = () => {
         box.querySelectorAll('.wrd.hl').forEach(el => el.classList.remove('hl'));
@@ -1977,7 +1981,6 @@ const app = {
       btn.classList.add('playing'); btn.textContent = '🔊 Listening…';
       const u = new SpeechSynthesisUtterance(text);
       u.lang = 'en-US'; u.rate = READ_RATE;
-      let hlIdx = 0;
       u.onstart = () => {
         job.started = true;
         // Some voices never report that they finished. Generous on purpose (about 80 words a minute),
@@ -1987,8 +1990,7 @@ const app = {
       u.onboundary = e => {
         if (e.name !== 'word') return;
         clearHl();
-        if (spans[hlIdx]) spans[hlIdx].classList.add('hl');
-        hlIdx++;
+        lightAt(spans, u.text, e.charIndex);
       };
       u.onend = () => finish(true);
       u.onerror = () => { if (job.settled) return; settle(); noVoice(); };
@@ -2195,15 +2197,13 @@ const app = {
     const qtSpans = Array.from(qtEl.querySelectorAll('.wrd'));
     const qtText  = qtSpans.map(s => s.textContent).join(' ').replace(/_+/g, 'blank');
 
-    let hlIdx = 0;
     const u = new SpeechSynthesisUtterance(qtText);
     u.lang = 'en-US';
     u.rate = READ_RATE;
     u.onboundary = e => {
       if (e.name !== 'word') return;
       document.querySelectorAll('#question-text .wrd.hl').forEach(el => el.classList.remove('hl'));
-      if (qtSpans[hlIdx]) qtSpans[hlIdx].classList.add('hl');
-      hlIdx++;
+      lightAt(qtSpans, u.text, e.charIndex);
     };
     u.onend = () => {
       document.querySelectorAll('#question-text .wrd.hl').forEach(e => e.classList.remove('hl'));
