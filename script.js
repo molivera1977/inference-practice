@@ -23,7 +23,7 @@
 /* ── CONFIG ─────────────────────────────────────────── */
 const REVIEW_OPEN   = true;      // OPENED to students 10/23 (Marcos: "open it"). false = students locked out; only Teacher Access works.
 const SHARE_MODE    = !!window.SHARE_MODE;   // set by share.js — a visitor's link, never a student's
-const INSTRUCT_SECS = 20;
+const INSTRUCT_SECS = 15;
 const READ_SECS     = 12;
 const NEXT_SECS     = 6;
 const STORAGE_KEY   = 'infp_session_v1';
@@ -1453,7 +1453,7 @@ const app = {
     if (el) el.textContent = `${m}:${s}`;
   },
 
-  /* ── INSTRUCTIONS LOCK (20s) ── */
+  /* ── INSTRUCTIONS LOCK (15s) ── */
   startInstructionsTimer() {
     if (this.instructInterval) { clearInterval(this.instructInterval); this.instructInterval = null; }
     const btn   = document.getElementById('ready-btn');
