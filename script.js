@@ -1137,47 +1137,36 @@ const app = {
       keys.map((k, i) => `${i + 1} — ${ACTIVITIES[k].label}`).join('\n') + `\n\nEnter 1 to ${keys.length}:`);
     const map = Object.fromEntries(keys.map((k, i) => [String(i + 1), k]));
     if (!map[section]) { alert('Invalid choice.'); reviewMode = false; return; }
-    const mode = prompt('Choose review mode:\n1 — Manual (you tap Next each question)\n2 — Auto-run (fully automatic)\n3 — Slide Mode (big slides for the board; tap to show each answer)\n\nEnter 1, 2 or 3:');
+    const mode = prompt('Choose review mode:\n1 — Manual (you tap Next each question)\n2 — Auto-run (fully automatic)\n3 — Slide Mode (the lesson, big, for your desk or the board. Never the questions.)\n\nEnter 1, 2 or 3:');
     if (mode !== '1' && mode !== '2' && mode !== '3') { alert('Invalid choice.'); reviewMode = false; return; }
     reviewAutoRun = (mode === '2');
+    // The lesson cards are the same at every level, so Slide Mode asks no level
+    if (mode === '3') { this.openSlides(map[section]); return; }
     const lv = prompt('Which level?\n' + LEVELS.map(L => `${L} — ${levelLabel(L)} reading level`).join('\n') +
       `\n\nEnter ${LEVELS[0]} to ${LEVELS[LEVELS.length - 1]}:`, '1');
     const level = Number(lv);
     if (!LEVELS.includes(level)) { alert('Invalid choice.'); reviewMode = false; return; }
     this._reviewLevel = level;
-    if (mode === '3') { this.openSlides(map[section], level); return; }
     this.startSession(map[section], level);
   },
 
   /* ── SLIDE MODE (Teacher Access) ──
      Marcos 10/19 (R.A.D. Practice): "can we add slide mode to teacher access in addition
-     to review mode". The level as big slides for the board, in teaching order: the lesson
-     cards, then each passage and its questions (the passage stays on the left). The
-     answer stays hidden until Show Answer. Next / Back, the arrow keys and a clicker's
-     Page Down / Page Up, and a jump list. Nothing is timed, scored, saved or sent. */
-  openSlides(section, level) {
+     to review mode". The activity's lesson cards as big slides, in teaching order. TEACHING
+     ONLY (Marcos 10/30, "make that the standard moving forward"): never a level's passages
+     or questions — a child's try at a level gets that level's questions, so showing them on
+     the board gave away the answers. For calling a kid up to the desk or the board with the
+     real lesson to refer to. Next / Back, the arrow keys and a clicker's Page Down / Page Up,
+     and a jump list. Nothing is timed, scored, saved or sent. */
+  openSlides(section) {
     const act = ACTIVITIES[section];
-    const passages = levelData(section, level);
-    const list = [];
-    (act.data.cards || []).forEach((card, i) => list.push({ kind: 'card', card, label: `📘 Lesson card ${i + 1}: ${card.title}` }));
-    const bank = sectionBank(section, level);
-    passages.forEach((p, pi) => {
-      list.push({ kind: 'story', passage: pi, label: `📖 Passage ${pi + 1}: ${p.title}` });
-      bank.forEach((q, k) => {
-        if (q.passage !== pi) return;
-        // The data lists the right choice first, so the slides mix them once here (click-a-sentence keeps passage order)
-        const order = q.choices.map((_, i) => i);
-        if (!q.fixed) shuffle(order);
-        const where = `Question ${k + 1} of ${bank.length}` + (q.part ? ` · Part ${q.part}` : '');
-        list.push({ kind: 'q', q, order, passage: pi, where, label: `❓ ${where}` });
-      });
-    });
-    this._slides = { section, level, list, at: 0, shown: false, passages };
+    const list = (act.data.cards || []).map((card, i) => ({ kind: 'card', card, label: `📘 Lesson card ${i + 1}: ${card.title}` }));
+    this._slides = { section, list, at: 0 };
     this.show('slide-screen');
     document.body.classList.add('slides-active');
     const jump = document.getElementById('sl-jump');
     jump.innerHTML = list.map((s, i) => `<option value="${i}">${i + 1}. ${escapeHtml(s.label)}</option>`).join('');
-    document.getElementById('sl-title').textContent = `🖥️ Slide Mode · ${act.short} · ${levelLabel(level)}`;
+    document.getElementById('sl-title').textContent = `🖥️ Slide Mode · ${act.short}`;
     this._renderSlide();
   },
 
@@ -1188,114 +1177,54 @@ const app = {
     document.getElementById('sl-count').textContent = `Slide ${S.at + 1} of ${S.list.length}`;
     document.getElementById('sl-jump').value = String(S.at);
     const body = document.getElementById('sl-body');
-    body.classList.toggle('sl-with-story', s.kind === 'q');
-    if (s.kind === 'card') {
-      body.innerHTML = `<h2 class="sl-h rp-say">${escapeHtml(s.card.title)}</h2>` +
-        `<div class="lc-blocks">${s.card.blocks.map(b => this._cardBlockHTML(b)).join('')}</div>`;
-    } else if (s.kind === 'story') {
-      body.innerHTML = this._slideStoryHTML(S.passages[s.passage], null);
-    } else {
-      body.innerHTML = this._slideStoryHTML(S.passages[s.passage], s.q) + `<div class="sl-main">${this._slideQuestionHTML(s)}</div>`;
-    }
+    body.innerHTML = `<h2 class="sl-h rp-say">${escapeHtml(s.card.title)}</h2>` +
+      `<div class="lc-blocks">${s.card.blocks.map(b => this._cardBlockHTML(b)).join('')}</div>`;
     const last = S.at + 1 >= S.list.length;
-    const asking = s.kind === 'q' && !S.shown;
     const next = document.getElementById('sl-next');
-    next.disabled = last && !asking;
-    next.textContent = asking ? '👀 Show Answer' : last ? '🏁 Last slide' : 'Next ▶';
+    next.disabled = last;
+    next.textContent = last ? '🏁 Last slide' : 'Next ▶';
     document.getElementById('sl-back').disabled = S.at === 0;
-    // A new slide starts at the top; Show Answer brings the answer into view
-    const answer = S.shown && body.querySelector('.sl-answer');
-    if (!answer) window.scrollTo(0, 0);
+    window.scrollTo(0, 0);   // a new slide starts at the top
     this._fitSlide();
-    if (answer) answer.scrollIntoView({ block: 'nearest' });
   },
 
   /* As big as fits above the Back / Next bar: at most 1.35×, never under 0.95× (the size
-     students see), so a long slide scrolls rather than shrinking past that. The answer box
-     does not count, so Show Answer never shrinks the slide; the passage scrolls in its column. */
+     students see), so a long card scrolls rather than shrinking past that. */
   _fitSlide() {
-    const S = this._slides;
     const body = document.getElementById('sl-body');
-    const answer = body.querySelector('.sl-answer');
-    const scroll = body.querySelector('.sl-with-story .story-scroll');
-    if (window.innerWidth <= 700) { body.style.zoom = '1'; if (scroll) scroll.style.maxHeight = ''; return; }
-    if (S.shown && S.fitAt === S.at) {                         // Show Answer keeps the slide's size
-      body.style.zoom = String(S.fitZoom);
-      if (scroll) scroll.style.maxHeight = S.fitStory;
-      return;
-    }
-    if (answer) answer.style.display = 'none';
-    if (scroll) scroll.style.maxHeight = '0px';            // the question column decides the height
+    if (window.innerWidth <= 700) { body.style.zoom = '1'; return; }
     body.style.zoom = '1';
     const top = body.getBoundingClientRect().top + window.scrollY;
     const room = window.innerHeight - top - document.querySelector('.sl-nav').getBoundingClientRect().height - 8;
-    const main = body.querySelector('.sl-main') || body;
     const fit = v => Math.round(Math.max(0.95, Math.min(1.35, v)) * 100) / 100;
-    let z = fit(room / Math.max(1, main.getBoundingClientRect().height));
+    let z = fit(room / Math.max(1, body.getBoundingClientRect().height));
     // Bigger text wraps into more lines, so measure again at that size and step down until it fits
     for (let k = 0; k < 10; k++) {
       body.style.zoom = String(z);
-      const h = main.getBoundingClientRect().height;
+      const h = body.getBoundingClientRect().height;
       if (h <= room || z <= 0.95) break;
       z = fit(Math.min(z - 0.02, z * room / h));
     }
-    if (scroll) {
-      const head = body.querySelector('.sl-story .story-panel-header');
-      scroll.style.maxHeight = `${Math.max(160, room / z - (head ? head.getBoundingClientRect().height / z : 0) - 4)}px`;
-    }
-    if (answer) answer.style.display = '';
-    S.fitAt = S.at; S.fitZoom = z; S.fitStory = scroll ? scroll.style.maxHeight : '';
-  },
-
-  /* The passage with its paragraphs numbered. A question about one paragraph rings that
-     paragraph. (A click-a-sentence question shows its sentences next to the question.) */
-  _slideStoryHTML(p, q) {
-    return `<div class="sl-story">${this._passageHTML(p, q)}</div>`;
-  },
-
-  /* One question: the question, the choices — and, after Show Answer, the right choice in
-     green, why, and the chart or R.A.D. answer (as the student sees it) */
-  _slideQuestionHTML(s) {
-    const q = s.q;
-    const open = this._slides.shown;
-    const blocks = [`<p class="sl-where">${escapeHtml(s.where)}</p>`];
-    blocks.push(this._beforeHTML(q));
-    blocks.push(sayBlockHTML('sl-qblock', (q.part ? `<span class="part-pill">Part ${q.part}</span> ` : '') + escapeHtml(q.q)));
-    blocks.push(this._showHTML(q, { right: open ? q.answer : null }));
-    if (q.type !== 'hot') {
-      const choices = s.order.map((i, pos) => {
-        const right = i === q.answer;
-        const face = `<strong>${'ABCDE'[pos]}.</strong>&nbsp;<span class="choice-text">${choiceHtml(escapeHtml(q.choices[i]))}</span>`;
-        return `<div class="sl-choice-row">${SPEAK_HTML.replace('speakBlock(this)', 'speakEl(this, this.nextElementSibling.querySelector(\'.choice-text\'))')}` +
-          `<div class="sl-choice${open && right ? ' sl-right' : ''}" data-orig="${i}">${face}${open && right ? ' <span class="sl-tick" data-noread>✅</span>' : ''}</div></div>`;
-      }).join('');
-      blocks.push(`<div class="sl-choices">${choices}</div>`);
-    }
-    if (q.part === 'A') blocks.push(this._partBWaitHTML());
-    if (open) blocks.push(`<div class="sl-answer">${this._answerHTML(q, true, null)}</div>`);
-    return blocks.join('');
   },
 
   slideNext() {
     const S = this._slides;
-    if (!S) return;
-    if (S.list[S.at].kind === 'q' && !S.shown) { S.shown = true; this._renderSlide(); return; }
-    if (S.at + 1 >= S.list.length) return;
-    S.at += 1; S.shown = false;
+    if (!S || S.at + 1 >= S.list.length) return;
+    S.at += 1;
     this._renderSlide();
   },
 
   slideBack() {
     const S = this._slides;
     if (!S || S.at === 0) return;
-    S.at -= 1; S.shown = false;
+    S.at -= 1;
     this._renderSlide();
   },
 
   slideGo(i) {
     const S = this._slides;
     if (!S || !(i >= 0 && i < S.list.length)) return;
-    S.at = i; S.shown = false;
+    S.at = i;
     this._renderSlide();
   },
 
@@ -1933,7 +1862,7 @@ const app = {
 
   /* Click a sentence, like the test's hot text: the paragraph (or the whole passage) is shown
      again next to the question, every sentence a button. `right` marks the answer green
-     (Slide Mode, after Show Answer). */
+     (it was Slide Mode's Show Answer; since 10/30 Slide Mode shows no questions). */
   _hotAreaHTML(q, right) {
     const p = levelData(this.currentSection || (this._slides || {}).section, this.level || (this._slides || {}).level || 1)[q.passage];
     if (!p) return '';
@@ -2132,12 +2061,11 @@ const app = {
     this.startNextTimer(null);
   },
 
-  /* The feedback: right or not, why, and the chart / R.A.D. answer. In Slide Mode it is
-     always the "right" wording (pickIdx null). */
+  /* The feedback: right or not, why, and the chart / R.A.D. answer. With no pick (pickIdx null;
+     it was Slide Mode's, which shows no questions since 10/30) it is always the "right" wording. */
   /* Part A's why names the clue — the very sentence Part B asks for — so, like the test, Part A
      gets no explanation until Part B is answered: only right or not (and the note on a wrong
-     pick). After Part B the student sees why for both parts, then the R.A.D. answer. Slide Mode
-     (the teacher's board) explains each part as it is shown. */
+     pick). After Part B the student sees why for both parts, then the R.A.D. answer. */
   _answerHTML(q, correct, pickIdx) {
     const rightText = q.choices[q.answer];
     const best = q.type === 'hot' || q.part === 'B'
@@ -2556,7 +2484,6 @@ document.addEventListener('keydown', e => {
 // A new window size (the projector plugged in, full screen) fits the slide again
 window.addEventListener('resize', () => {
   if (!app._slides || document.getElementById('slide-screen').classList.contains('hidden')) return;
-  app._slides.fitAt = -1;
   app._fitSlide();
 });
 
