@@ -115,7 +115,9 @@ function submitScorePartial() {
       wrongQuestions: (app.missedQuestions||[]).map(missEntry).join(' | '),
       startedAt:      app.startedAt || '',
       finishedAt:     app.finishedAt || '',
-      events:         JSON.stringify(app.events || []),
+      // where the student is now, for the dashboard's 📍 Right Now (Marcos 11/9: "Yes, add it"). The sheet keeps no
+      // status text, only the events, so the item rides at the end of this row's copy of the log (never in app.events).
+      events:         JSON.stringify([...(app.events || []), { e: 'on', q: app.currentIndex + 1, of: app.currentBank.length }]),
       timestamp:      new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
     })
   }).catch(() => {});
@@ -1511,6 +1513,7 @@ const app = {
     logEvent('start', { v: this.version, L: level });
     this.startTimer();
     this.renderQuestion();
+    submitScorePartial();   // on the dashboard as In Progress the moment a student starts (11/9)
   },
 
   // Quiz screen in the test's layout: the passage on the left, the question on the right
@@ -1570,6 +1573,7 @@ const app = {
     // Saved right after answering the last question → nothing left to ask
     if (this.currentIndex >= this.currentBank.length) { this._finishSession(); return; }
     this.renderQuestion();
+    if (!this.currentIndex) submitScorePartial();   // a student who comes back shows up again right away (later items send their own)
   },
 
   saveProgress() {
@@ -2006,9 +2010,8 @@ const app = {
       });
     }
 
-    if (this.currentIndex > 0 && this.currentIndex % 5 === 0) {
-      submitScorePartial();
-    }
+    // a row at every question, so the dashboard follows each student question by question (11/9; was every 5th)
+    if (this.currentIndex > 0) submitScorePartial();
 
     this.saveProgress();
 
@@ -2220,6 +2223,7 @@ const app = {
     const picked    = q.choices[pickIdx];
     const rightText = q.choices[q.answer];
     this.responses[q.id] = { stem: q.q, pick: picked, answer: rightText, correct };
+    logEvent('answer', { id: q.id, ok: correct });   // the dashboard's 📍 Right Now draws a box per question from these
 
     if (correct) {
       this.score++;
