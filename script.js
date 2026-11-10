@@ -1958,12 +1958,7 @@ const app = {
     document.getElementById('question-text').innerHTML =
       wrapWords((q.part ? `<span class="part-pill">Part ${q.part}</span> ` : '') + escapeHtml(q.q));
     document.getElementById('q-before').innerHTML = this._beforeHTML(q);
-    document.getElementById('q-show').innerHTML = this._showHTML(q);
-    document.querySelectorAll('#q-show .hot-s').forEach(el => {
-      const pick = () => this._selectHot(Number(el.dataset.i), el);
-      el.addEventListener('click', pick);
-      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
-    });
+    document.getElementById('q-show').innerHTML = this._showHTML(q);   // a sentence's tap is caught by #q-show (see BOOT)
     this._renderPassage(q);
     document.getElementById('q-after').innerHTML = q.part === 'A' ? this._partBWaitHTML() : '';
     const fb = document.getElementById('feedback');
@@ -2793,6 +2788,17 @@ function stopConfetti() {
 }
 
 /* ── BOOT ────────────────────────────────────────────── */
+/* Click-a-sentence taps are caught by the question box, which is never redrawn. The 🔊 beside the sentences
+   rebuilds them to light each word as it reads, and taps tied to the sentences themselves were lost with them
+   until a restart (Marcos 11/10: "they would try to pick a sentence and it wouldn't highlight"). */
+const qShow = document.getElementById('q-show');
+const tappedSentence = e => { const el = e.target.closest && e.target.closest('.hot-s'); return el && qShow.contains(el) ? el : null; };
+qShow.addEventListener('click', e => { const el = tappedSentence(e); if (el) app._selectHot(Number(el.dataset.i), el); });
+qShow.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const el = tappedSentence(e);
+  if (el) { e.preventDefault(); app._selectHot(Number(el.dataset.i), el); }
+});
 app.init();
 if (TEACH) app._teachReady();
 else if (location.hash === '#teacher' && teacherUnlocked()) app.openTeacher();
