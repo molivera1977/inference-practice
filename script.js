@@ -117,7 +117,8 @@ function submitScorePartial() {
       finishedAt:     app.finishedAt || '',
       // where the student is now, for the dashboard's 📍 Right Now (Marcos 11/9: "Yes, add it"). The sheet keeps no
       // status text, only the events, so the item rides at the end of this row's copy of the log (never in app.events).
-      events:         JSON.stringify([...(app.events || []), { e: 'on', q: app.currentIndex + 1, of: app.currentBank.length }]),
+      // While the lesson cards show, it says so (Marcos 11/11: "Yes, show it") — the dashboard reads "📖 Lesson cards".
+      events:         JSON.stringify([...(app.events || []), { e: 'on', q: app.currentIndex + 1, of: app.currentBank.length, ...(app._needsCards() ? { cards: true } : {}) }]),
       timestamp:      new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
     })
   }).catch(() => {});
@@ -2012,6 +2013,7 @@ const app = {
     this._leaveCards();
     this.saveProgress();
     this.renderQuestion();
+    submitScorePartial();   // past the cards: the dashboard moves from "📖 Lesson cards" to question 1 (11/11)
   },
 
   prevCard() {
