@@ -214,17 +214,33 @@ function missText(q) {
   return `${t} — passage “${q.title}”`;
 }
 
-/* Only version 1 so far: every try of a level gets the same passages. */
-function versionCount() { return 1; }
+/* ── VERSIONS (Marcos 11/10: "New retry passages") ──
+   data/act-<kind>.js is version 1 of every level; data/v2-<kind>.js holds more versions of a level
+   (window.INF_VERSIONS[kind][version][level] = its passages). Try 1 of a level on this device = version 1,
+   try 2 = version 2 … then version 1 again; a level with one version always gets version 1. Every version asks
+   the same questions (ids, types, skills) in the same order, so the dashboard reads them slot by slot; the
+   version rides in the start event (v). */
+function versionCount(section, level) {
+  const more = (window.INF_VERSIONS || {})[section] || {};
+  let n = 1;
+  while ((more[n + 1] || {})[level]) n++;
+  return n;
+}
+/* The version a try gets: the next one after the tries of that level finished on this device */
+function versionForTry(section, level, triesDone) {
+  return (triesDone % versionCount(section, level)) + 1;
+}
 
-function levelData(section, level) {
+function levelData(section, level, version) {
+  const v = version > 1 && (((window.INF_VERSIONS || {})[section] || {})[version] || {})[level];
+  if (v) return v;
   const act = ACTIVITIES[section];
   return (act && act.data.levels && act.data.levels[level]) || [];
 }
 
-function sectionBank(section, level) {
+function sectionBank(section, level, version) {
   const out = [];
-  levelData(section, level || 1).forEach((p, pi) => {
+  levelData(section, level || 1, version).forEach((p, pi) => {
     const base = { passage: pi, title: p.title, genre: p.genre };
     (p.items || []).forEach(it => {
       if (it.type === 'ebsr') {
@@ -312,12 +328,15 @@ let reviewAutoRun    = false;
    Speech HQ's screen, 10/28, and the Lab's, 10/30): Teacher Access asks the PIN in the page, then ONE screen: an
    activity and a level — any of them, nothing passed first. The PIN lasts for this tab (sessionStorage) until
    ✕ Exit teacher. 👀 Try it as a student opens the guest view (share.js: nothing reaches the sheet) on
-   ?teach=<activity>.<level>, started the way a first try starts (the lesson cards, then the passages). */
+   ?teach=<activity>.<level>[.<version>], started the way a first try starts (the lesson cards, then the passages).
+   A level with a second version (a retry's passages, 11/10) gets a Version row. */
 const TEACHER_KEY      = 'infp_teacher';        // sessionStorage: '1' = the Teacher PIN was given in this tab
-const TEACHER_PICK_KEY = 'infp_teacher_pick';   // sessionStorage: the last activity and level picked
+const TEACHER_PICK_KEY = 'infp_teacher_pick';   // sessionStorage: the last activity, level and version picked
 const TEACH = (() => {
-  const m = /^([a-z]+)\.(\d+)$/.exec(new URLSearchParams(location.search).get('teach') || '');
-  return SHARE_MODE && m && ACTIVITIES[m[1]] && LEVELS.includes(Number(m[2])) ? { section: m[1], level: Number(m[2]) } : null;
+  const m = /^([a-z]+)\.(\d+)(?:\.(\d+))?$/.exec(new URLSearchParams(location.search).get('teach') || '');
+  const version = m ? Number(m[3] || 1) : 0;
+  return SHARE_MODE && m && ACTIVITIES[m[1]] && LEVELS.includes(Number(m[2])) && version >= 1 && version <= versionCount(m[1], Number(m[2]))
+    ? { section: m[1], level: Number(m[2]), version } : null;
 })();
 function teacherUnlocked() { try { return sessionStorage.getItem(TEACHER_KEY) === '1'; } catch (e) { return false; } }
 /* The Answer key's small tag under a wrong choice: the trap's words (the dashboard's, for the Lab's same kinds) */
@@ -1157,7 +1176,8 @@ const app = {
     try { p = JSON.parse(sessionStorage.getItem(TEACHER_PICK_KEY) || 'null'); } catch (e) {}
     const section = p && ACTIVITIES[p.section] ? p.section : Object.keys(ACTIVITIES)[0];
     const level = p && LEVELS.includes(p.level) ? p.level : LEVELS[0];
-    return { section, level };
+    const version = p && p.version >= 1 && p.version <= versionCount(section, level) ? p.version : 1;
+    return { section, level, version };
   },
 
   openTeacher() {
@@ -1166,13 +1186,15 @@ const app = {
     this.show('teacher-screen');
   },
 
-  /* An activity and a level: one row of buttons each; the picked one is filled in. Only version 1 so far
-     (versionCount), so there is no version row. */
+  /* An activity and a level: one row of buttons each; the picked one is filled in. A level with a retry's
+     passages (versionCount > 1) also shows a Version row. */
   teacherPick(change) {
     this._renderTeacher(Object.assign(this._teacherPick(), change));
   },
 
   _renderTeacher(t) {
+    const vc = versionCount(t.section, t.level);
+    if (!(t.version >= 1 && t.version <= vc)) t = Object.assign({}, t, { version: 1 });
     try { sessionStorage.setItem(TEACHER_PICK_KEY, JSON.stringify(t)); } catch (e) {}
     const btn = (on, label, change, id) =>
       `<button type="button" class="t-pick${on ? ' on' : ''}" data-id="${id}" aria-pressed="${on}" onclick='app.teacherPick(${JSON.stringify(change)})'>${label}</button>`;
@@ -1180,15 +1202,21 @@ const app = {
       .map(a => btn(a.key === t.section, `${a.icon} ${escapeHtml(a.label)}`, { section: a.key }, a.key)).join('');
     document.getElementById('t-levels').innerHTML = LEVELS
       .map(L => btn(L === t.level, escapeHtml(levelLabel(L)), { level: L }, L)).join('');
-    document.getElementById('t-picked').textContent = this._teachLabel(t.section, t.level);
+    document.getElementById('t-version-row').classList.toggle('hidden', vc < 2);
+    document.getElementById('t-versions').innerHTML = Array.from({ length: vc }, (_, i) =>
+      btn(i + 1 === t.version, `Version ${i + 1}`, { version: i + 1 }, i + 1)).join('');
+    document.getElementById('t-picked').textContent = this._teachLabel(t.section, t.level, t.version);
   },
 
-  _teachLabel(section, level) { return `${ACTIVITIES[section].label} · ${levelLabel(level)}`; },
+  /* "Version N" only where a level has more than one */
+  _teachLabel(section, level, version) {
+    return `${ACTIVITIES[section].label} · ${levelLabel(level)}${versionCount(section, level) > 1 ? ` · Version ${version || 1}` : ''}`;
+  },
 
   /* 👀 Try it as a student: the guest view, started on this activity and level */
   teacherTry() {
     const t = this._teacherPick();
-    location.href = `${location.pathname}${window.SHARE_LINK}&teach=${t.section}.${t.level}`;
+    location.href = `${location.pathname}${window.SHARE_LINK}&teach=${t.section}.${t.level}${t.version > 1 ? '.' + t.version : ''}`;
   },
 
   /* 🖥️ Slide Mode: the activity's lesson cards — the same at every level, so the level picked does not matter */
@@ -1204,8 +1232,8 @@ const app = {
      should have a title"). */
   teacherKey() {
     const t = this._teacherPick();
-    const passages = levelData(t.section, t.level);
-    const total = sectionBank(t.section, t.level).length;
+    const passages = levelData(t.section, t.level, t.version);
+    const total = sectionBank(t.section, t.level, t.version).length;
     const trap = (kind, note) => `<span class="key-trap">⚠️ <b>${escapeHtml(TRAP_WORDS[kind] || 'wrong choice')}</b>${note ? ' — ' + escapeHtml(note) : ''}</span>`;
     const choices = c => `<ul class="key-choices">${c.choices.map((x, i) => i === (c.answer || 0)
       ? `<li class="key-right">${choiceHtml(escapeHtml(x))} ✅</li>`
@@ -1213,7 +1241,7 @@ const app = {
     const why = x => x ? `<div class="key-why"><b>Why:</b> ${escapeHtml(x)}</div>` : '';
     const about = it => it.para ? `<p class="key-where-para">About paragraph ${it.para}</p>` : '';
     let n = 0;
-    const html = [`<div class="key-print-head"><h1>Inference Practice Answer Key — ${escapeHtml(this._teachLabel(t.section, t.level))}</h1>` +
+    const html = [`<div class="key-print-head"><h1>Inference Practice Answer Key — ${escapeHtml(this._teachLabel(t.section, t.level, t.version))}</h1>` +
       `<p>Drawing Conclusions · Inferences · Supporting Details · Mr. O's 4th Grade · ${total} questions, ${passages.length} passages · the right answer has a ✅</p></div>`,
       `<p class="key-note">Each child sees the choices in a shuffled order, so there are no letters here. The right answer has a ✅. ` +
       `A click-a-sentence question shows its right sentence, and any sentence with its own note.</p>`];
@@ -1240,7 +1268,7 @@ const app = {
         html.push(`<div class="key-q"><p class="key-where">${where}</p>${body}</div>`);
       });
     });
-    document.getElementById('key-title').textContent = `✅ Answer key · ${this._teachLabel(t.section, t.level)}`;
+    document.getElementById('key-title').textContent = `✅ Answer key · ${this._teachLabel(t.section, t.level, t.version)}`;
     document.getElementById('key-body').innerHTML = html.join('');
     this.show('key-screen');
   },
@@ -1265,13 +1293,13 @@ const app = {
     document.getElementById('welcome-panel').classList.add('hidden');
     document.getElementById('teach-bar').classList.remove('hidden');
     document.body.classList.add('teach-on');
-    document.getElementById('teach-what').textContent = this._teachLabel(t.section, t.level);
+    document.getElementById('teach-what').textContent = this._teachLabel(t.section, t.level, t.version);
     document.getElementById('teach-ready').classList.remove('hidden');
   },
 
   teachStart() {
     document.getElementById('teach-ready').classList.add('hidden');
-    this.startSession(TEACH.section, TEACH.level);
+    this.startSession(TEACH.section, TEACH.level, TEACH.version);
   },
 
   /* ⏩ Skip the wait: opens what a student is waiting on right now — a lesson card's Next, the passage's or the
@@ -1461,7 +1489,7 @@ const app = {
   },
 
   /* ── START SESSION ── */
-  startSession(section, level) {
+  startSession(section, level, version) {
     level = level || 1;
     this.events = []; this.startedAt = new Date().toISOString();
     this.finishedAt = '';
@@ -1489,7 +1517,8 @@ const app = {
     this.timerSeconds   = 0;
     this.currentAttemptNum = reviewMode ? 1 : triesOf(this.studentName, section, level).length + 1;
     this.sessionBase = SESSION_ID;
-    this.version = 1;
+    // Try 1 of a level → version 1, a retry → version 2 … (👀 Try it as a student runs the version picked)
+    this.version = version || versionForTry(section, level, this.currentAttemptNum - 1);
 
     // Each choice keeps its own note when the choices are shuffled. Click-a-sentence
     // choices keep passage order.
@@ -1503,7 +1532,7 @@ const app = {
     };
 
     // The questions keep their order: passage 1's, then passage 2's, Part A before Part B.
-    this.currentBank = sectionBank(section, level).map(shuffleQ);
+    this.currentBank = sectionBank(section, level, this.version).map(shuffleQ);
     // The lesson cards play on a student's first try of an activity. After a finished try
     // (any level) the climb goes straight to the passage. Teacher Access always shows them.
     const triedBefore = !reviewMode && LEVELS.some(L => triesOf(this.studentName, section, L).length);
@@ -1677,7 +1706,7 @@ const app = {
     const q = this.currentBank[this.currentIndex];
     const prev = this.currentBank[this.currentIndex - 1];
     if (prev && prev.passage === q.passage) return { secs: READ_SECS, first: false };
-    const p = levelData(this.currentSection, this.level || 1)[q.passage];
+    const p = levelData(this.currentSection, this.level || 1, this.version)[q.passage];
     const words = p ? p.paragraphs.join(' ').split(/\s+/).length : 0;
     return { secs: Math.min(60, Math.max(20, Math.round(words / 5))), first: true };
   },
@@ -2031,7 +2060,7 @@ const app = {
     const blocks = [];
     if (q.type === 'hot') blocks.push(this._hotAreaHTML(q, opts && opts.right));
     else if (q.para) {
-      const p = levelData(this.currentSection || (this._slides || {}).section, this.level || (this._slides || {}).level || 1)[q.passage];
+      const p = levelData(this.currentSection || (this._slides || {}).section, this.level || (this._slides || {}).level || 1, this.version)[q.passage];
       const text = p && p.paragraphs[q.para - 1];
       if (text) blocks.push(sayBlockHTML('ip-excerpt', escapeHtml(text), `📄 From the passage — paragraph ${q.para}:`));
     }
@@ -2064,7 +2093,7 @@ const app = {
      again next to the question, every sentence a button. `right` marks the answer green
      (it was Slide Mode's Show Answer; since 10/30 Slide Mode shows no questions). */
   _hotAreaHTML(q, right) {
-    const p = levelData(this.currentSection || (this._slides || {}).section, this.level || (this._slides || {}).level || 1)[q.passage];
+    const p = levelData(this.currentSection || (this._slides || {}).section, this.level || (this._slides || {}).level || 1, this.version)[q.passage];
     if (!p) return '';
     const nums = [...new Set(q.where.map(w => w[0]))];
     const label = q.para ? `📄 From the passage — paragraph ${q.para}:` : '📄 The passage:';
@@ -2079,7 +2108,7 @@ const app = {
   _renderPassage(q) {
     const panel = document.getElementById('story-panel');
     if (!panel) return;
-    const p = levelData(this.currentSection, this.level || 1)[q.passage];
+    const p = levelData(this.currentSection, this.level || 1, this.version)[q.passage];
     if (!p) { panel.innerHTML = ''; return; }
     const old = panel.querySelector('.story-scroll');
     const keep = old && this._panelPassage === q.passage ? old.scrollTop : 0;

@@ -185,6 +185,18 @@ Use the shared word meanings, so every activity says them the same way:
 - P1: X01 ebsr ['Drawing conclusions', 'Supporting detail'] Part A "What conclusion can be drawn about ___?" · X02 mc evidence "Which sentence from the passage BEST supports the idea that ___?" (Supporting detail) · X03 hot, whole passage, "Click on the sentence in the passage that BEST shows ___." (Supporting detail)
 - P2: X04 ebsr ['Main idea', 'Supporting detail'] Part A "What is the main idea of the passage?" · X05 mc "What is the author's point of view about ___?" (Author's point of view) · X06 mc evidence "Which sentence from the passage BEST supports the idea that ___?" (Supporting detail)
 
+## A retry's passages (version 2 — Marcos 11/10: "New retry passages")
+A retry of a level used to get the same two passages, and kids scored 8 of 8 in 3–5 minutes. Now try 1 of a level gets version 1 (`data/act-<kind>.js`), try 2 gets version 2, then version 1 again. Version 2 of a level lives in its own file, `data/v2-<kind>.js`:
+
+```js
+window.INF_VERSIONS = window.INF_VERSIONS || {};
+window.INF_VERSIONS.<kind> = { 2: { 1: [ PASSAGE, PASSAGE ] } };   // version → level → passages
+```
+
+- Same rules as any level: the level's FK and words, the same slots as Level 1 (ids, types, skills, genres), new titles, new premises and names.
+- `node tools/check-levels.js` checks every version; add the file's `<script>` tag to index.html after the `act-` files.
+- So far: version 2 of Level 1 for all eight activities (11/10).
+
 ## Done means
 `node tools/check-levels.js <kind>` prints "✓ all checks passed". Then reread every passage as a 9-year-old would:
 - Is each inference truly figure-out-able?

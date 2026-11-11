@@ -5,6 +5,8 @@
 
    - every activity has Level 1 to 6; every level has the same passages slots
      (same genre) and the same questions (ids, types, skills) as Level 1
+   - more versions of a level (data/v2-<kind>.js, a retry's passages — Marcos 11/10) pass
+     every check a level does, with the same slots as Level 1; versions count up with no gap
    - each passage measures within 0.3 of its level's Flesch-Kincaid target and
      has a word count in the level's range (data/inference.js INF_LEVELS)
    - a "Which sentence…" choice, a Part B choice and a click-a-sentence answer
@@ -33,6 +35,8 @@ W.INF_SETS = {};
 W.INF_ACTIVITIES.forEach(a => {
   const f = path.join(SITE, `data/act-${a.kind}.js`);
   if (fs.existsSync(f)) vm.runInContext(fs.readFileSync(f, 'utf8'), box);
+  const v = path.join(SITE, `data/v2-${a.kind}.js`);   // window.INF_VERSIONS[kind][version][level]
+  if (fs.existsSync(v)) vm.runInContext(fs.readFileSync(v, 'utf8'), box);
 });
 
 const only = process.argv.slice(2);
@@ -127,9 +131,19 @@ W.INF_ACTIVITIES.forEach(a => {
     cards.forEach(t => allText.push([`${a.kind} cards`, t]));
   }
 
-  W.INF_LEVELS.forEach(L => {
-    const ps = levels[L.n];
-    const tag = `${a.kind} L${L.n}`;
+  // Every level (version 1), then every more version of a level
+  const runs = W.INF_LEVELS.map(L => ({ L, ps: levels[L.n], tag: `${a.kind} L${L.n}`, v: 1 }));
+  const more = (W.INF_VERSIONS || {})[a.kind] || {};
+  Object.keys(more).map(Number).sort((x, y) => x - y).forEach(v => {
+    if (!(v >= 2)) { fail(`${a.kind}: version "${v}" (versions beyond 1 are numbered 2, 3 …)`); return; }
+    Object.keys(more[v] || {}).map(Number).forEach(n => {
+      const L = W.INF_LEVELS.find(x => x.n === n);
+      if (!L) { fail(`${a.kind} version ${v}: no Level ${n}`); return; }
+      if (v > 2 && !((more[v - 1] || {})[n])) fail(`${a.kind} L${n}: version ${v} but no version ${v - 1} (the site stops at the gap)`);
+      runs.push({ L, ps: more[v][n], tag: `${a.kind} L${n} v${v}`, v });
+    });
+  });
+  runs.forEach(({ L, ps, tag, v }) => {
     if (!Array.isArray(ps) || !ps.length) { fail(`${tag}: missing`); return; }
     if (ps.length !== base.length) fail(`${tag}: ${ps.length} passages (Level 1 has ${base.length})`);
     const whys = [];
@@ -158,7 +172,7 @@ W.INF_ACTIVITIES.forEach(a => {
 
       // Same questions as Level 1, slot by slot
       const mine = slotsOf(p), theirs = slotsOf(b);
-      if (L.n > 1) {
+      if (L.n > 1 || v > 1) {
         if (mine.length !== theirs.length) fail(`${at}: ${mine.length} scored questions (Level 1 has ${theirs.length})`);
         mine.forEach((s, i) => {
           const t = theirs[i] || {};
@@ -261,7 +275,7 @@ W.INF_ACTIVITIES.forEach(a => {
     }
     const mc = ps.reduce((n, p) => n + (p.items || []).filter(it => it.type !== 'hot').length, 0);
     if (mc >= 4 && longest > mc / 2) fail(`${tag}: the right answer is the longest choice in ${longest} of ${mc} questions (make the wrong ones as long)`);
-    if (L.n === 1) report.push(`${tag}: ${scored} scored questions`);
+    if (L.n === 1 || v > 1) report.push(`${tag}: ${scored} scored questions`);
   });
 });
 

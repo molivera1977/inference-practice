@@ -339,6 +339,10 @@
     <div class="t-row" id="t-sections"></div>
     <h3 class="t-h">Level <span class="t-h-note">the reading level of the passages; the same kinds of questions</span></h3>
     <div class="t-row" id="t-levels"></div>
+    <div id="t-version-row" class="hidden">
+      <h3 class="t-h">Version <span class="t-h-note">a student's first try gets Version 1; a retry gets Version 2: new passages, the same kinds of questions</span></h3>
+      <div class="t-row" id="t-versions"></div>
+    </div>
     <p class="t-picked" id="t-picked"></p>
     <div class="t-actions">
       <button type="button" class="t-act" id="t-try" onclick="app.teacherTry()">👀 Try it as a student<span>You answer, like a student: the lesson cards, then this level's passages and questions. ⏩ Skip the wait opens anything that is shut. Nothing is saved.</span></button>
@@ -480,6 +484,15 @@
 <script src="data/act-twopart.js?v=ip1"></script>
 <script src="data/act-nonfiction.js?v=ip1"></script>
 <script src="data/act-together.js?v=ip1"></script>
-<script src="script.js?v=ip11-hottap"></script>
+<!-- a retry's passages (Marcos 11/10: "New retry passages"): version 2 of Level 1 -->
+<script src="data/v2-meet.js?v=1"></script>
+<script src="data/v2-clue.js?v=1"></script>
+<script src="data/v2-feel.js?v=1"></script>
+<script src="data/v2-conclude.js?v=1"></script>
+<script src="data/v2-prove.js?v=1"></script>
+<script src="data/v2-twopart.js?v=1"></script>
+<script src="data/v2-nonfiction.js?v=1"></script>
+<script src="data/v2-together.js?v=1"></script>
+<script src="script.js?v=ip12-retry"></script>
 </body>
 </html>
