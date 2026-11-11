@@ -1,5 +1,7 @@
-/* How Does the Character Feel?, version 2 of Level 1 — a retry's passages (Marcos 11/10: "New retry passages").
-   Try 1 of a level gets data/act-feel.js; try 2 gets these. Same question slots as version 1. */
+/* How Does the Character Feel?, version 2 of Levels 1–6 — a retry's passages (Marcos 11/10: "New retry passages").
+   Try 1 of a level gets data/act-feel.js; try 2 gets these. Same question slots as version 1.
+   Levels 2–6 (11/11): sports, clubs, hobbies and making things; every level keys feelings and traits
+   that differ from version 1 of that level (each level's comment lists both). */
 window.INF_VERSIONS = window.INF_VERSIONS || {};
 window.INF_VERSIONS.feel = {
   2: {
@@ -88,6 +90,475 @@ window.INF_VERSIONS.feel = {
               'This sentence shows Mia is nice to Luis. It does not show she keeps trying.',
               'This sentence tells what both kids did. It does not show Mia is determined.'],
             why: 'Determined people keep trying. Paragraph 3 says that when a piece did not fit, Mia turned it around and tried again. That sentence BEST shows she is determined.' }
+        ] }
+    ],
+
+    /* ───────────── Level 2 (FK 2.5) ─────────────
+       v1 keys: worried · honest · worried→calm | reads vs rushes · mad · careful · in a hurry.
+       v2 keys: bored · creative · bored→excited | hops on vs will not step up · scared · helpful · proud at the end. */
+    2: [
+      { title: 'Rock Pets on the Sideline', genre: 'story',
+        paragraphs: [
+          'Poppy sat on a blanket at her big brother\'s soccer game. The game was very long. Poppy yawned, kicked at the grass, and counted the clouds two times. "When will this game ever be over?" she groaned.',
+          'Then Poppy spotted a pile of smooth gray rocks by the fence, and she took out her markers. She drew black spots on a round rock and turned it into a ladybug. Next, she gave a long, skinny rock two eyes and a red tongue to make a snake.',
+          'Soon three little kids from the other blankets sat down beside her. Poppy handed each of them a rock and a marker.',
+          'When the game ended, her brother ran over. Poppy held up a whole family of rock pets. "Look what we made!" she cheered, bouncing on her toes.'
+        ],
+        items: [
+          { id: 'F01', type: 'mc', skill: 'Character feelings',
+            q: 'How does Poppy feel when she sits at her brother\'s soccer game?',
+            choices: ['bored with the long game', 'excited about the soccer game', 'angry at her big brother', 'scared of the other kids'],
+            notes: [null,
+              'Poppy yawns and groans. She is not excited about the game.',
+              'The passage gives no clue that Poppy is angry at her brother.',
+              'The passage gives no clue that Poppy is scared of anyone.'],
+            why: 'Paragraph 1 says Poppy yawns and kicks at the grass. She counts the clouds two times. She groans, "When will this game ever be over?" People do that when they have nothing fun to do. So Poppy feels bored.',
+            chart: { facts: 'Poppy yawns, kicks the grass, and counts the clouds.', know: 'People yawn and look around when they have nothing fun to do.', conclusion: 'Poppy feels bored with the long game.' } },
+          { id: 'F02', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Poppy?',
+            choices: ['creative', 'lazy', 'rude', 'bossy'],
+            notes: [null,
+              'Paragraph 2 says Poppy gets busy with her markers. That is not lazy.',
+              'Poppy does not say or do anything mean. The passage gives no clue that she is rude.',
+              'Poppy does not tell the little kids what to do. The passage gives no clue that she is bossy.'],
+            why: 'Creative means you think of new ideas and make new things. Paragraph 2 says Poppy finds plain gray rocks. She gives a skinny rock two eyes and a red tongue to make a snake. So Poppy is creative.' },
+          { id: 'F03', type: 'mc', skill: 'Feeling change',
+            q: 'How do Poppy\'s feelings change from the beginning to the end of the passage?',
+            choices: ['bored at first, then excited', 'excited at first, then bored', 'bored at first, then angry', 'scared at first, then excited'],
+            notes: [null,
+              'This is backwards. Poppy is bored at the start and excited at the end.',
+              'Paragraph 4 says Poppy cheers. That is not angry.',
+              'Poppy yawns at the start. She is not scared.'],
+            why: 'At the start, Poppy yawns and groans. She is bored. At the end, she cheers, "Look what we made!" She bounces on her toes. She is excited.' },
+          { id: 'F04', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Poppy is creative?',
+            choices: ['She drew black spots on a round rock and turned it into a ladybug.', 'Poppy yawned, kicked at the grass, and counted the clouds two times.', 'Soon three little kids from the other blankets sat down beside her.', 'When the game ended, her brother ran over.'],
+            notes: [null,
+              'This sentence shows Poppy is bored. It does not show she is creative.',
+              'This sentence is about the little kids, not Poppy.',
+              'This sentence is about her brother. It does not show Poppy is creative.'],
+            why: 'Creative people turn plain things into something new. In paragraph 2, Poppy draws black spots on a round rock and turns it into a ladybug. That sentence BEST shows she is creative.' }
+        ] },
+
+      { title: 'The Coffee-Can Stilts', genre: 'story',
+        paragraphs: [
+          'Uncle Sol made two pairs of stilts out of old coffee cans and long pieces of rope. Tilly hopped right up on her cans and clomped across the yard, laughing.',
+          'Her little brother, Ned, held the ropes of his stilts tightly, but his legs were shaking, and he did not step up. "What if I fall over and get hurt?" he asked in a tiny voice.',
+          'Tilly set her own stilts down and hurried over to her brother. She held his cans still on the grass with both hands. "Hold on to my shoulder," she told him. Then she walked beside him across the yard.',
+          'Before long, Ned was clomping all the way to the fence by himself. He stood up tall on his cans and puffed out his chest.'
+        ],
+        items: [
+          { id: 'F05', type: 'mc', skill: 'Comparing characters',
+            q: 'How are Tilly and Ned different?',
+            choices: ['Tilly hops right on, but Ned does not step up.', 'Ned hops right on, but Tilly does not step up.', 'Tilly gets stilts, but Ned does not get any.', 'Tilly is mean to Ned, but Ned is kind to Tilly.'],
+            notes: [null,
+              'This is backwards. Paragraph 2 says Ned is the one who does not step up.',
+              'Paragraph 1 says Uncle Sol made two pairs of stilts. Ned gets stilts too.',
+              'The passage gives no clue that Tilly is mean to Ned.'],
+            why: 'Paragraph 1 says Tilly hops right up on her cans. Paragraph 2 says Ned holds his ropes, but he does not step up. So Tilly hops right on, but Ned does not.' },
+          { id: 'F06', type: 'mc', skill: 'Character feelings',
+            q: 'How does Ned feel when he holds the ropes of his stilts?',
+            choices: ['scared that he will fall', 'excited to clomp on his stilts', 'angry at Uncle Sol', 'sleepy and bored in the yard'],
+            notes: [null,
+              'Paragraph 2 says Ned does not step up. He is not excited.',
+              'The passage gives no clue that Ned is angry at Uncle Sol.',
+              'Ned\'s legs are shaking. That is not sleepy or bored.'],
+            why: 'Paragraph 2 says Ned\'s legs are shaking. In a tiny voice, he asks, "What if I fall over and get hurt?" People shake and talk softly when they are afraid. So Ned feels scared.',
+            chart: { facts: 'Ned\'s legs shake, and he asks, "What if I fall?"', know: 'People shake when they are afraid.', conclusion: 'Ned feels scared that he will fall.' } },
+          { id: 'F07', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Tilly?',
+            choices: ['helpful', 'selfish', 'lazy', 'grumpy'],
+            notes: [null,
+              'Paragraph 3 says Tilly sets her own stilts down for Ned. That is not selfish.',
+              'Paragraph 3 says Tilly hurries over. That is not lazy.',
+              'Paragraph 1 says Tilly laughs. The passage gives no clue that she is grumpy.'],
+            why: 'Helpful means you do things to help others. Paragraph 3 says Tilly sets her own stilts down. She holds Ned\'s cans still, and she walks beside him. So Tilly is helpful.' },
+          { id: 'F08', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Ned is proud at the end?',
+            choices: ['He stood up tall on his cans and puffed out his chest.', '"What if I fall over and get hurt?" he asked in a tiny voice.', 'Tilly hopped right up on her cans and clomped across the yard, laughing.', 'Uncle Sol made two pairs of stilts out of old coffee cans and long pieces of rope.'],
+            notes: [null,
+              'This sentence shows Ned is scared at the start. It does not show he is proud.',
+              'This sentence is about Tilly, not Ned.',
+              'This sentence tells how the stilts were made. It does not show how Ned feels.'],
+            why: 'Proud people stand tall and puff out their chests. In paragraph 4, Ned stands up tall on his cans and puffs out his chest. That sentence BEST shows he is proud.' }
+        ] }
+    ],
+
+    /* ───────────── Level 3 (FK 3.0) ─────────────
+       v1 keys: grumpy · helpful · grumpy→happy | blames the referee vs not · angry · kind · happy at the end.
+       v2 keys: guilty · honest · guilty→proud | pushes to the front vs waits · sure of himself · humble · embarrassed. */
+    3: [
+      { title: 'One Hundred Bounces', genre: 'story',
+        paragraphs: [
+          'All summer, Nola had tried to bounce one hundred times in a row on her pogo stick. On Saturday, her little brother Dez sat on the steps to count.',
+          'At sixty-two, the pogo stick wobbled, and Nola\'s sneaker brushed the grass. Dez was counting on his fingers, so he did not see it. Nola kept bouncing until he yelled, "One hundred!"',
+          'Dez ran for the chalk and wrote 100 in big numbers on the driveway. Nola did not cheer. She stared at the numbers and chewed on her lip. Her stomach felt as tight as a knot.',
+          'When Mom came out to look, Nola took a deep breath. "My foot touched the grass at sixty-two, so it does not count," she said. Then she rubbed the numbers away with her shoe.',
+          'Nola tried again and again all afternoon. Just before dinner, Dez counted all the way to one hundred and four, and this time it was real. Nola stood up tall, and a huge smile spread across her face.'
+        ],
+        items: [
+          { id: 'F01', type: 'mc', skill: 'Character feelings',
+            q: 'How does Nola feel when Dez writes 100 on the driveway?',
+            choices: ['guilty about the record', 'proud of her new record', 'angry at her little brother', 'bored with her pogo stick'],
+            notes: [null,
+              'Paragraph 3 says Nola does not cheer. She is not proud of the record.',
+              'The passage gives no clue that Nola is angry at Dez.',
+              'Nola tried all summer to get to one hundred. She is not bored.'],
+            why: 'Paragraph 2 says Nola\'s sneaker brushed the grass, and Dez did not see it. Paragraph 3 says Nola does not cheer. She chews her lip, and her stomach feels tight. Guilty means you feel bad because something is not right. So Nola feels guilty.',
+            chart: { facts: 'Nola knows her sneaker brushed the grass. She chews her lip and does not cheer.', know: 'People feel bad inside when they know something is not true.', conclusion: 'Nola feels guilty about the record.' } },
+          { id: 'F02', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Nola?',
+            choices: ['honest', 'sneaky', 'lazy', 'rude'],
+            notes: [null,
+              'Sneaky means hiding the truth. Nola tells Mom what happened. That is the opposite of sneaky.',
+              'Paragraph 5 says Nola tries again and again. That is not lazy.',
+              'Nola does not say or do anything mean. The passage gives no clue that she is rude.'],
+            why: 'Honest means you tell the truth. Nobody saw Nola\'s sneaker touch the grass. But paragraph 4 says she rubs the 100 away with her shoe. She will not keep a record that is not true. So Nola is honest.' },
+          { id: 'F03', type: 'mc', skill: 'Feeling change',
+            q: 'How do Nola\'s feelings change from the beginning to the end of the passage?',
+            choices: ['guilty at first, then proud', 'proud at first, then guilty', 'guilty at first, then angry', 'bored at first, then proud'],
+            notes: [null,
+              'This is backwards. Nola feels guilty first and proud at the end.',
+              'Paragraph 5 says a huge smile spreads across Nola\'s face. That is not angry.',
+              'Nola has tried all summer. She is not bored at first.'],
+            why: 'At first, Nola does not cheer about the record. She chews her lip because she feels guilty. At the end, she stands up tall with a huge smile. She is proud.' },
+          { id: 'F04', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Nola is honest?',
+            choices: ['"My foot touched the grass at sixty-two, so it does not count," she said.', 'Nola did not cheer.', 'Dez was counting on his fingers, so he did not see it.', 'Nola stood up tall, and a huge smile spread across her face.'],
+            notes: [null,
+              'This sentence shows Nola feels bad. It does not show she tells the truth.',
+              'This sentence is about Dez, not Nola.',
+              'This sentence shows Nola is proud at the end. It does not show she is honest.'],
+            why: 'Honest people tell the truth, even when nobody saw. In paragraph 4, Nola tells Mom that her foot touched the grass, so the record does not count. That sentence BEST shows she is honest.' }
+        ] },
+
+      { title: 'The Yellow Circle', genre: 'story',
+        paragraphs: [
+          'On Saturday, Cole and Greta took their first archery class at the rec center. Coach Lin showed everyone how to hold a bow and aim at the yellow circle in the middle of the target.',
+          'Cole pushed his way to the front of the line. "Watch this," he said with a big grin. "I never miss." He yanked the string back quickly and let the arrow fly.',
+          'The arrow sailed right over the target and stuck in the hay bale behind it. A few kids giggled. Cole\'s cheeks turned bright red, and he stared down at his sneakers.',
+          'Greta waited until it was her turn. She planted her feet, took a slow breath, and aimed for a long time. Her arrow landed right in the yellow circle, but Greta did not jump or cheer. She just shrugged and said, "I guess I got lucky." Then she asked Cole to try it the slow way with her.',
+          'This time, Cole aimed slowly, and his arrow landed in the blue ring.'
+        ],
+        items: [
+          { id: 'F05', type: 'mc', skill: 'Comparing characters',
+            q: 'How are Cole and Greta different?',
+            choices: ['Cole pushes to the front, but Greta waits her turn.', 'Greta pushes to the front, but Cole waits his turn.', 'Cole takes the class, but Greta only watches.', 'Greta laughs at Cole, but Cole helps Greta.'],
+            notes: [null,
+              'This is backwards. Paragraph 2 says Cole is the one who pushes to the front.',
+              'Paragraph 4 says Greta shoots an arrow too. She does not just watch.',
+              'The passage says a few kids giggled. It gives no clue that Greta laughs at Cole.'],
+            why: 'Paragraph 2 says Cole pushes his way to the front of the line. Paragraph 4 says Greta waits until it is her turn. So Cole pushes to the front, but Greta waits her turn.' },
+          { id: 'F06', type: 'mc', skill: 'Character feelings',
+            q: 'How does Cole feel when he pushes to the front of the line?',
+            choices: ['sure that he will hit the middle', 'worried that he will miss the target', 'angry at Coach Lin', 'bored with the archery class'],
+            notes: [null,
+              'Cole says, "I never miss." He is not worried.',
+              'The passage gives no clue that Cole is angry at Coach Lin.',
+              'Cole pushes to the front to go first. He is not bored.'],
+            why: 'Paragraph 2 says Cole pushes to the front with a big grin. He says, "Watch this," and, "I never miss." People talk like that when they think they are very good. So Cole feels sure that he will hit the middle.',
+            chart: { facts: 'Cole grins and says, "I never miss."', know: 'People brag when they think they are very good at something.', conclusion: 'Cole feels sure that he will hit the middle.' } },
+          { id: 'F07', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Greta?',
+            choices: ['humble', 'bossy', 'lazy', 'jealous'],
+            notes: [null,
+              'Greta asks Cole to try with her. She does not order him around. The passage gives no clue that she is bossy.',
+              'Paragraph 4 says Greta plants her feet and aims for a long time. That is not lazy.',
+              'The passage gives no clue that Greta is jealous of anyone.'],
+            why: 'Humble means you do not brag about yourself. Paragraph 4 says Greta hits the yellow circle. But she does not jump or cheer. She says, "I guess I got lucky." So Greta is humble.' },
+          { id: 'F08', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Cole is embarrassed?',
+            choices: ['Cole\'s cheeks turned bright red, and he stared down at his sneakers.', '"Watch this," he said with a big grin.', 'The arrow sailed right over the target and stuck in the hay bale behind it.', 'Greta waited until it was her turn.'],
+            notes: [null,
+              'This sentence shows Cole is sure of himself. It does not show he is embarrassed.',
+              'This sentence tells where the arrow went. It does not show how Cole feels.',
+              'This sentence is about Greta, not Cole.'],
+            why: 'Embarrassed people often turn red and look down. In paragraph 3, Cole\'s cheeks turn bright red, and he stares down at his sneakers. That sentence BEST shows he is embarrassed.' }
+        ] }
+    ],
+
+    /* ───────────── Level 4 (FK 3.5) ─────────────
+       v1 keys: frustrated · hardworking · frustrated→proud | takes his time vs hurries · bored · curious · amazed.
+       v2 keys: homesick · thoughtful · homesick→happy | complains vs does not · grumpy · cheerful · cheerful. */
+    4: [
+      { title: 'String Stars at Camp', genre: 'story',
+        paragraphs: [
+          'On her first night at Camp Birch Hill, Maisie could not fall asleep. She hugged a photo of her family and stared at the dark ceiling of the cabin. At breakfast, she pushed her pancakes around her plate and did not take one bite. Before lunch, she wrote two letters home.',
+          'During rest time, Maisie pulled a loop of red yarn from her pocket. Her grandma had taught her string games. Maisie could twist the yarn into a star or a cup with just her fingers.',
+          'On the bunk below, a younger girl named Bitsy was crying into her pillow. Maisie climbed down the ladder and sat beside her. She tied a second loop of yarn for Bitsy and showed her how to make a star, one slow step at a time.',
+          'By Friday, the whole cabin sat in a circle after dinner. They made string stars and taught each other new tricks. When Maisie\'s mom came to pick her up, Maisie hugged her new friends goodbye. "Can I come back next summer?" she begged.'
+        ],
+        items: [
+          { id: 'F01', type: 'mc', skill: 'Character feelings',
+            q: 'How does Maisie feel when she first gets to camp?',
+            choices: ['homesick and missing her family', 'excited to be far away from her home', 'angry at the camp leaders', 'proud of her string games'],
+            notes: [null,
+              'Paragraph 1 says Maisie hugs a photo of her family. She is not excited to be away.',
+              'The passage gives no clue that Maisie is angry at the camp leaders.',
+              'The string games come later, in paragraph 2. This question asks about when she first gets to camp.'],
+            why: 'Paragraph 1 says Maisie hugs a photo of her family. She cannot sleep, and she does not eat. She writes two letters home. Kids do this when they miss home. So Maisie feels homesick.',
+            chart: { facts: 'Maisie hugs a photo of her family, skips breakfast, and writes letters home.', know: 'Kids who miss home think about their family a lot.', conclusion: 'Maisie feels homesick and misses her family.' } },
+          { id: 'F02', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Maisie?',
+            choices: ['thoughtful', 'selfish', 'bossy', 'jealous'],
+            notes: [null,
+              'Selfish means you only think about yourself. The passage gives no clue that Maisie is selfish.',
+              'Maisie does not tell anyone what to do. The passage gives no clue that she is bossy.',
+              'The passage gives no clue that Maisie is jealous of anyone.'],
+            why: 'Thoughtful means you notice how others feel, and you do something kind. Paragraph 3 says Maisie sees Bitsy crying. She climbs down the ladder and sits beside her. So Maisie is thoughtful.' },
+          { id: 'F03', type: 'mc', skill: 'Feeling change',
+            q: 'How do Maisie\'s feelings change from the beginning to the end of the passage?',
+            choices: ['homesick at first, then happy', 'happy at first, then homesick', 'homesick at first, then angry', 'excited at first, then bored'],
+            notes: [null,
+              'This is backwards. Maisie is homesick at the start and happy at the end.',
+              'Paragraph 4 says Maisie hugs her new friends. That is not angry.',
+              'Paragraph 1 shows Maisie cannot sleep or eat. She is not excited at first.'],
+            why: 'At the start, Maisie cannot sleep or eat, and she writes letters home. She is homesick. At the end, she hugs her new friends and begs to come back. She is happy.' },
+          { id: 'F04', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Maisie is thoughtful?',
+            choices: ['She tied a second loop of yarn for Bitsy and showed her how to make a star, one slow step at a time.', 'She hugged a photo of her family and stared at the dark ceiling of the cabin.', 'Maisie could twist the yarn into a star or a cup with just her fingers.', 'When Maisie\'s mom came to pick her up, Maisie hugged her new friends goodbye.'],
+            notes: [null,
+              'This sentence shows Maisie is homesick. It does not show she is thoughtful.',
+              'This sentence tells what Maisie can make. It does not show she is thoughtful.',
+              'This sentence shows Maisie is happy at the end. It does not show she is thoughtful.'],
+            why: 'Thoughtful people help others feel better. Bitsy is sad. In paragraph 3, Maisie makes a loop of yarn for Bitsy and teaches her, step by step. That sentence BEST shows she is thoughtful.' }
+        ] },
+
+      { title: 'Snow in Their Boots', genre: 'story',
+        paragraphs: [
+          'Bo and his cousin Lia took their very first ski lesson on the small hill behind the lodge. The wind was icy, and the long skis felt strange on their feet.',
+          'Bo complained the entire morning. "These boots pinch my toes," he grumbled. "My nose is frozen, and I am sick of falling." Every time he fell into the snow, he smacked it with his pole and would not get up until the teacher pulled him to his feet.',
+          'Lia fell down even more than Bo did. Each time, she laughed, brushed the snow off her hat, and said, "That was a good one!" Once she flopped onto her back and made a snow angel before she got up.',
+          'At lunch, Lia made up a game where every fall would get a score from one to ten, just like at a contest. That afternoon, when Bo tumbled into the snow again, Lia held up nine fingers. Bo did not smack the snow with his pole. Instead, he laughed and made a snow angel right next to Lia\'s.'
+        ],
+        items: [
+          { id: 'F05', type: 'mc', skill: 'Comparing characters',
+            q: 'How are Bo and Lia different?',
+            choices: ['Bo complains all morning, but Lia does not.', 'Lia complains all morning, but Bo does not.', 'Bo takes the ski lesson, but Lia does not.', 'Lia falls down, but Bo never falls at all.'],
+            notes: [null,
+              'This is backwards. Paragraph 2 says Bo is the one who complains.',
+              'Paragraph 1 says Bo and Lia take the lesson together.',
+              'Paragraph 2 says Bo falls into the snow too.'],
+            why: 'Paragraph 2 says Bo complains the entire morning about his boots, his nose, and falling. Paragraph 3 shows that Lia falls even more, but she never complains. So Bo complains, but Lia does not.' },
+          { id: 'F06', type: 'mc', skill: 'Character feelings',
+            q: 'How does Bo feel when he falls into the snow in the morning?',
+            choices: ['grumpy about the ski lesson', 'happy to play in the snow', 'proud of how fast he can ski', 'sleepy after a big lunch'],
+            notes: [null,
+              'In the morning, Bo smacks the snow with his pole. He is not happy.',
+              'The passage gives no clue that Bo is proud of his skiing.',
+              'Lunch comes later, in paragraph 4. This question asks about the morning.'],
+            why: 'Paragraph 2 says Bo grumbles about his boots and his nose. When he falls, he smacks the snow with his pole. People act like that when they are in a bad mood. So Bo feels grumpy.',
+            chart: { facts: 'Bo grumbles and smacks the snow with his pole.', know: 'People grumble and hit things when they are in a bad mood.', conclusion: 'Bo feels grumpy about the ski lesson.' } },
+          { id: 'F07', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Lia?',
+            choices: ['cheerful', 'lazy', 'bossy', 'shy'],
+            notes: [null,
+              'Paragraph 3 says Lia gets up every time she falls. That is not lazy.',
+              'Lia does not tell Bo what to do. The passage gives no clue that she is bossy.',
+              'Paragraph 4 says Lia makes up a game and plays it with Bo. That is not shy.'],
+            why: 'Cheerful means you stay happy, even when things go wrong. Paragraph 3 says Lia makes a snow angel after she falls. Paragraph 4 says she turns falling into a game. So Lia is cheerful.' },
+          { id: 'F08', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Lia is cheerful?',
+            choices: ['Each time, she laughed, brushed the snow off her hat, and said, "That was a good one!"', '"These boots pinch my toes," he grumbled.', 'Lia fell down even more than Bo did.', 'Bo and his cousin Lia took their very first ski lesson on the small hill behind the lodge.'],
+            notes: [null,
+              'This sentence is about Bo, not Lia.',
+              'This sentence tells that Lia falls a lot. It does not show how she feels about it.',
+              'This sentence tells where the lesson is. It does not show Lia is cheerful.'],
+            why: 'Cheerful people laugh when things go wrong. In paragraph 3, each time Lia falls, she laughs and says, "That was a good one!" That sentence BEST shows she is cheerful.' }
+        ] }
+    ],
+
+    /* ───────────── Level 5 (FK 4.0) ─────────────
+       v1 keys: scared · responsible · excited→proud | jealous vs not · proud · kind · jealous.
+       v2 keys: puzzled · curious · puzzled→amazed | talks to new players vs stays quiet · nervous · friendly · shy. */
+    5: [
+      // FACTS: a boomerang's curved arms are shaped a little like airplane wings (airfoils); a returning
+      // boomerang is thrown held almost straight up and down (near vertical), not flat; the wind changes
+      // how it flies. (The passage only says Enzo tried these; it claims nothing else.)
+      { title: 'Enzo\'s Wooden Boomerang', genre: 'story',
+        paragraphs: [
+          'For his birthday, Enzo\'s aunt mailed him a wooden boomerang. Her card said, "Throw it the right way, and it will fly right back to you." Enzo carried it to the empty soccer field behind his apartment building to try it.',
+          'He threw the boomerang as hard as he could. It flew straight ahead and thudded into the grass. Enzo walked over, scratched his head, and turned the boomerang over and over in his hands. "Why didn\'t it turn around?" he wondered out loud.',
+          'That night, Enzo read everything he could find about how boomerangs work. He learned that each curved arm is shaped a little like an airplane wing. He called his aunt and asked her a dozen questions, and he filled two notebook pages with drawings and notes.',
+          'The next morning, Enzo tested a new idea with every throw. He held the boomerang almost straight up and down instead of flat. He tried throwing into the wind, then with it, then a little to the side. After each throw, he wrote down what happened.',
+          'On his ninth throw, the boomerang curved in a wide circle and floated back toward him. Enzo\'s mouth fell open. He caught it with both hands and stared at it as if it were magic.'
+        ],
+        items: [
+          { id: 'F01', type: 'mc', skill: 'Character feelings',
+            q: 'How does Enzo feel when the boomerang thuds into the grass?',
+            choices: ['puzzled about why it did not return', 'angry at his aunt for the gift', 'scared of the heavy wooden boomerang', 'bored with his new birthday gift'],
+            notes: [null,
+              'The passage gives no clue that Enzo is angry at his aunt.',
+              'Enzo walks right over and picks up the boomerang. He is not scared of it.',
+              'Enzo takes his gift right out to the field to try it. He is not bored with it.'],
+            why: 'Paragraph 2 says Enzo scratches his head. He asks, "Why didn\'t it turn around?" People do that when they do not get something. So Enzo feels puzzled.',
+            chart: { facts: 'Enzo scratches his head and asks, "Why didn\'t it turn around?"', know: 'People scratch their heads when they do not understand something.', conclusion: 'Enzo feels puzzled about why it did not return.' } },
+          { id: 'F02', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Enzo?',
+            choices: ['curious', 'careless', 'lazy', 'grumpy'],
+            notes: [null,
+              'Paragraph 4 says Enzo writes down what happens after each throw. That is not careless.',
+              'Paragraph 4 says Enzo tests a new idea with every throw. That is not lazy.',
+              'The passage gives no clue that Enzo is grumpy.'],
+            why: 'Curious means you want to learn about things. Paragraph 3 says Enzo calls his aunt. He asks her a lot of questions. He fills two pages with notes. So Enzo is curious.' },
+          { id: 'F03', type: 'mc', skill: 'Feeling change',
+            q: 'How do Enzo\'s feelings change from the beginning to the end of the passage?',
+            choices: ['puzzled at first, then amazed', 'amazed at first, then puzzled', 'puzzled at first, then angry', 'bored at first, then amazed'],
+            notes: [null,
+              'This is backwards. Enzo is puzzled first and amazed at the end.',
+              'Paragraph 5 says Enzo\'s mouth falls open. That is not angry.',
+              'Enzo takes his new gift to the field to try it. He is not bored at first.'],
+            why: 'At the start, Enzo scratches his head. He is puzzled. At the end, his mouth falls open. He stares at it like it is magic. He is amazed.' },
+          { id: 'F04', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Enzo is curious?',
+            choices: ['That night, Enzo read everything he could find about how boomerangs work.', 'He threw the boomerang as hard as he could.', 'Enzo\'s mouth fell open.', 'For his birthday, Enzo\'s aunt mailed him a wooden boomerang.'],
+            notes: [null,
+              'This sentence tells how Enzo threw. It does not show he wants to learn.',
+              'This sentence shows Enzo is amazed at the end. It does not show he is curious.',
+              'This sentence tells where the boomerang came from. It does not show Enzo is curious.'],
+            why: 'Curious people want to find out how things work. In paragraph 3, Enzo reads all he can find about how boomerangs work. That sentence BEST shows he is curious.' }
+        ] },
+
+      { title: 'First Day of Lacrosse', genre: 'story',
+        paragraphs: [
+          'Della and her twin sister, Rue, signed up for the town\'s brand-new lacrosse team. On the first day of practice, twenty kids they had never met crowded onto the field, swinging long sticks with little nets on the ends.',
+          'Della marched straight into the crowd. She told everyone her name, asked which schools they went to, and said she liked a tall girl\'s purple cleats. Within ten minutes, she had high-fived half of the team.',
+          'Rue stayed at the edge of the field and hugged her stick against her chest. When a girl named Jojo said hello, Rue only nodded and looked down at the grass. Then the coach blew her whistle and shouted, "Everyone find a partner!" Rue\'s stomach flip-flopped, and she looked all around the field for Della.',
+          'Della jogged over and pulled Rue by the hand to meet Jojo. "This is my sister, Rue," Della said. "She can catch anything you throw at her."',
+          'By the end of practice, Rue and Jojo were tossing the ball back and forth and giggling. On the ride home, Rue talked about lacrosse the whole way.'
+        ],
+        items: [
+          { id: 'F05', type: 'mc', skill: 'Comparing characters',
+            q: 'How are Della and Rue different?',
+            choices: ['Della walks right into the crowd, but Rue stays at the edge.', 'Rue walks right into the crowd, but Della stays at the edge.', 'Della plays lacrosse, but Rue only watches.', 'Rue knows the other players, but Della does not.'],
+            notes: [null,
+              'This is backwards. Paragraph 2 says Della is the one who marches into the crowd.',
+              'Paragraph 5 says Rue tosses the ball with Jojo. She plays too.',
+              'Paragraph 1 says the twins had never met these kids.'],
+            why: 'Paragraph 2 says Della marches straight into the crowd. Paragraph 3 says Rue stays at the edge of the field. So Della walks right into the crowd, but Rue stays at the edge.' },
+          { id: 'F06', type: 'mc', skill: 'Character feelings',
+            q: 'How does Rue feel when the coach tells everyone to find a partner?',
+            choices: ['nervous about finding a partner', 'proud of her new lacrosse stick', 'angry at her twin sister', 'bored at lacrosse practice'],
+            notes: [null,
+              'The passage gives no clue that Rue is proud of her stick.',
+              'Rue looks for Della. The passage gives no clue that she is angry at her.',
+              'Rue\'s stomach flip-flops. That is not bored.'],
+            why: 'Paragraph 3 says Rue\'s stomach flip-flops. She looks all around for her sister. A stomach can flip-flop when you are scared of something new. So Rue feels nervous.',
+            chart: { facts: 'Rue\'s stomach flip-flops, and she looks all around for Della.', know: 'Your stomach can flip-flop when you are worried.', conclusion: 'Rue feels nervous about finding a partner.' } },
+          { id: 'F07', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Della?',
+            choices: ['friendly', 'rude', 'lazy', 'grumpy'],
+            notes: [null,
+              'Della says she likes a girl\'s cleats. That is not rude.',
+              'Paragraph 2 says Della marches right into the crowd. That is not lazy.',
+              'Della high-fives half the team. The passage gives no clue that she is grumpy.'],
+            why: 'Friendly means you like to meet people and talk to them. Paragraph 2 says Della tells everyone her name. She high-fives half the team. So Della is friendly.' },
+          { id: 'F08', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Rue is shy?',
+            choices: ['When a girl named Jojo said hello, Rue only nodded and looked down at the grass.', 'On the ride home, Rue talked about lacrosse the whole way.', 'She told everyone her name, asked which schools they went to, and said she liked a tall girl\'s purple cleats.', 'Della and her twin sister, Rue, signed up for the town\'s brand-new lacrosse team.'],
+            notes: [null,
+              'This sentence shows Rue talking a lot at the end. It does not show she is shy.',
+              'This sentence is about Della, not Rue.',
+              'This sentence tells what the twins signed up for. It does not show Rue is shy.'],
+            why: 'Shy people do not like to talk to new people. In paragraph 3, a girl says hello. Rue only nods and looks down. That sentence BEST shows she is shy.' }
+        ] }
+    ],
+
+    /* ───────────── Level 6 (FK 4.5) ─────────────
+       v1 keys: embarrassed · determined · embarrassed→proud | his way vs lets the kids help · angry · patient · bossy.
+       v2 keys: worried · careful · nervous→relieved | grabs a ball vs asks to learn · left out · polite · sorry at the end. */
+    6: [
+      // FACTS: a ship in a bottle is built outside the bottle with its masts folded down flat; it slides
+      // in through the neck, and pulling a thread raises the masts. (Grandpa is Margo's grandfather; made up.)
+      { title: 'The Ship Inside the Bottle', genre: 'story',
+        paragraphs: [
+          'Margo wiped her damp hands on her jeans and stared at the empty glass bottle on Grandpa\'s kitchen table. Today, the tiny wooden ship she had been building for three Saturdays would finally go inside it. Her knee bounced under the table, and she could not sit still.',
+          'Grandpa had sailed real ships across the ocean for forty years. Now he built little ones that fit inside bottles, and he had been teaching Margo how. She had sanded every piece of the hull until it felt as smooth as glass. When she painted the thin black stripe along its side, she rested her wrist on the table so the brush would not wobble. She even measured each thread twice before she tied a single knot.',
+          'The ship\'s three masts were folded down flat so that it could slide through the narrow neck of the bottle. Once the ship was inside, Margo would pull a long thread, and the masts would swing up.',
+          'The ship slid in without a scratch, but when Margo tugged the thread, the tallest mast caught on the edge of a paper sail. Margo froze and bit her lip. One hard pull could snap the mast in half.',
+          'Grandpa handed her a long wire with a tiny hook on the end. Margo slid it through the neck of the bottle and nudged the sail away from the mast, a hair at a time. Then she pulled the thread again, slowly and gently. All three masts swung up straight and tall. Margo let out a huge breath and sank back in her chair, and Grandpa laughed and patted her shoulder.'
+        ],
+        items: [
+          { id: 'F01', type: 'mc', skill: 'Character feelings',
+            q: 'How does Margo feel when the tallest mast catches on the sail?',
+            choices: ['worried that the mast will snap', 'bored with all of the slow, tiny work', 'angry at Grandpa', 'proud of her finished ship'],
+            notes: [null,
+              'Margo freezes and bites her lip. She is not bored.',
+              'The passage gives no clue that Margo is angry at Grandpa.',
+              'The ship is not finished yet when the mast catches. This question asks about the stuck mast.'],
+            why: 'Paragraph 4 says Margo freezes and bites her lip. One hard pull could snap the mast. People freeze when they are afraid something will go wrong. So Margo feels worried that the mast will snap.',
+            chart: { facts: 'Margo freezes and bites her lip when the mast gets stuck.', know: 'People freeze when they are afraid something will break.', conclusion: 'Margo feels worried that the mast will snap.' } },
+          { id: 'F02', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Margo?',
+            choices: ['careful', 'careless', 'bossy', 'jealous'],
+            notes: [null,
+              'Careless means not careful. Paragraph 2 says Margo sands every piece until it is smooth. That is the opposite of careless.',
+              'Margo does not tell anyone what to do. The passage gives no clue that she is bossy.',
+              'The passage gives no clue that Margo is jealous of anyone.'],
+            why: 'Careful means you work slowly so nothing goes wrong. Paragraph 2 says Margo measures each thread twice before she ties a knot. Paragraph 5 says she nudges the sail a hair at a time. So Margo is careful.' },
+          { id: 'F03', type: 'mc', skill: 'Feeling change',
+            q: 'How do Margo\'s feelings change from the beginning to the end of the passage?',
+            choices: ['nervous at first, then relieved', 'relieved at first, then nervous', 'nervous at first, then angry', 'bored at first, then relieved'],
+            notes: [null,
+              'This is backwards. Margo is nervous at the start and relieved at the end.',
+              'Paragraph 5 says Grandpa laughs and pats Margo\'s shoulder. Margo is not angry.',
+              'Paragraph 1 says Margo\'s knee bounces, and she cannot sit still. She is not bored.'],
+            why: 'At the start, Margo\'s hands are damp, and her knee bounces. She is nervous. At the end, she lets out a huge breath and sinks back in her chair. She is relieved. Relieved means you stop worrying.' },
+          { id: 'F04', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Margo is careful?',
+            choices: ['When she painted the thin black stripe along its side, she rested her wrist on the table so the brush would not wobble.', 'Margo froze and bit her lip.', 'Grandpa had sailed real ships across the ocean for forty years.', 'All three masts swung up straight and tall.'],
+            notes: [null,
+              'This sentence shows Margo is worried. It does not show she is careful.',
+              'This sentence is about Grandpa, not Margo.',
+              'This sentence tells what the masts did. It does not show how Margo works.'],
+            why: 'Careful people take steps so they do not make a mistake. In paragraph 2, Margo rests her wrist on the table so the brush will not wobble. That sentence BEST shows she is careful.' }
+        ] },
+
+      // FACTS: in bocce, players roll heavy balls and try to stop them as close as possible to a small
+      // target ball called the pallino. (Red balls and a white pallino are this court's set; the passage
+      // only calls the pallino "the little ball" after paragraph 1.)
+      { title: 'The Bocce Court at Linden Park', genre: 'story',
+        paragraphs: [
+          'Every morning, a group of older neighbors played bocce on the dusty court at Linden Park. In bocce, each player rolls a heavy ball and tries to stop it as close as possible to a small target ball called the pallino. Cousins Jace and Nia had watched the games from the swings all summer, and one morning they finally walked over.',
+          'Nia grabbed a red ball off the bench before anyone could say a word. "This game looks easy," she announced, and she hurled the ball down the court. It smacked into the pallino and knocked it into the weeds. A woman named Mrs. Ferrante frowned and folded her arms.',
+          'Jace stepped forward and said, "Excuse me, we are sorry about the little ball. Would you please teach us how to play?" Mrs. Ferrante\'s frown melted into a smile. She showed Jace how to bend his knees and let the ball roll gently off his fingers, the way her own grandfather had taught her long ago.',
+          'Nia slumped down on the bench all by herself and rested her chin in her hands. She watched the others laugh and clap whenever Jace rolled, and every few minutes, she let out a long, loud sigh.',
+          'Finally, Nia stood up and wandered into the weeds. She found the pallino, brushed it off, and carried it back to Mrs. Ferrante. "Could you teach me the right way too?" she asked quietly. Mrs. Ferrante winked and handed her a red ball.'
+        ],
+        items: [
+          { id: 'F05', type: 'mc', skill: 'Comparing characters',
+            q: 'How are Jace and Nia different?',
+            choices: ['Nia grabs a ball without asking, but Jace asks to learn.', 'Jace grabs a ball without asking, but Nia asks to learn.', 'Jace plays bocce, but Nia never gets a turn at all.', 'Nia has played bocce before, but Jace has not.'],
+            notes: [null,
+              'This is backwards. Paragraph 2 says Nia is the one who grabs a ball.',
+              'Paragraph 5 says Mrs. Ferrante hands Nia a red ball at the end.',
+              'Paragraph 1 says Jace and Nia only watched from the swings. Nia has not played before.'],
+            why: 'Paragraph 2 says Nia grabs a ball before anyone can say a word. Paragraph 3 says Jace asks, "Would you please teach us how to play?" So Nia grabs a ball without asking, but Jace asks to learn.' },
+          { id: 'F06', type: 'mc', skill: 'Character feelings',
+            q: 'How does Nia feel when she sits on the bench by herself?',
+            choices: ['left out of the fun', 'proud of her hard throw', 'happy to sit and rest', 'scared of the older neighbors'],
+            notes: [null,
+              'Nia\'s throw knocked the little ball into the weeds. The passage gives no clue that she is proud of it.',
+              'Nia sighs again and again. She is not happy to sit there.',
+              'The passage gives no clue that Nia is scared of the neighbors.'],
+            why: 'Paragraph 4 says Nia sits all by herself with her chin in her hands. She watches the others laugh and clap, and she sighs. People do that when they wish they could join in. So Nia feels left out.',
+            chart: { facts: 'Nia sits alone, sighs, and watches the others laugh and clap.', know: 'People feel sad when they watch others have fun without them.', conclusion: 'Nia feels left out of the fun.' } },
+          { id: 'F07', type: 'mc', skill: 'Character traits',
+            q: 'Which word BEST describes Jace?',
+            choices: ['polite', 'rude', 'lazy', 'shy'],
+            notes: [null,
+              'Jace says "Excuse me" and "please." That is the opposite of rude.',
+              'Paragraph 3 says Jace steps forward and learns to roll the ball. That is not lazy.',
+              'Jace steps forward and talks to a woman he just met. That is not shy.'],
+            why: 'Polite means you have good manners. Paragraph 3 says Jace says, "Excuse me." He asks with "please." So Jace is polite.' },
+          { id: 'F08', type: 'mc', skill: 'Supporting detail', evidence: true,
+            q: 'Which sentence from the passage BEST shows that Nia is sorry at the end?',
+            choices: ['She found the pallino, brushed it off, and carried it back to Mrs. Ferrante.', 'Nia grabbed a red ball off the bench before anyone could say a word.', 'Mrs. Ferrante\'s frown melted into a smile.', 'Nia slumped down on the bench all by herself and rested her chin in her hands.'],
+            notes: [null,
+              'This sentence shows how Nia acts at the start. It does not show she is sorry.',
+              'This sentence is about Mrs. Ferrante, not Nia.',
+              'This sentence shows Nia feels left out. It does not show she is sorry.'],
+            why: 'People who are sorry try to fix what they did wrong. Nia knocked the pallino into the weeds. In paragraph 5, she finds it and carries it back to Mrs. Ferrante. That sentence BEST shows she is sorry.' }
         ] }
     ]
   }

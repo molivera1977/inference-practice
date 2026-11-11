@@ -195,7 +195,8 @@ window.INF_VERSIONS.<kind> = { 2: { 1: [ PASSAGE, PASSAGE ] } };   // version �
 
 - Same rules as any level: the level's FK and words, the same slots as Level 1 (ids, types, skills, genres), new titles, new premises and names.
 - `node tools/check-levels.js` checks every version; add the file's `<script>` tag to index.html after the `act-` files.
-- So far: version 2 of Level 1 for all eight activities (11/10).
+- Version 2 of Level 1 for all eight activities (11/10); Levels 2–6 added 11/11 (Marcos: "let's also do retry stories for the other levels") — every level of every activity has a retry's passages.
+- Before writing any passage, grep its premise's key nouns and verbs across Mr. O's other sites (QPS hub, the Lab, R.A.D. Practice, sub packets, SBAC reviews, vocab practice) and read anything about the same thing: a retell of something the class has seen is not allowed (11/10 review: four near-retells had to be replaced).
 
 ## Done means
 `node tools/check-levels.js <kind>` prints "✓ all checks passed". Then reread every passage as a 9-year-old would:

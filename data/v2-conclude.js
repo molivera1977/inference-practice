@@ -1,5 +1,9 @@
-/* Draw a Conclusion, version 2 of Level 1 — a retry's passages (Marcos 11/10: "New retry passages").
-   Try 1 of a level gets data/act-conclude.js; try 2 gets these. Same question slots as version 1. */
+/* Draw a Conclusion, version 2 of Levels 1–6 — a retry's passages (Marcos 11/10: "New retry passages").
+   Try 1 of a level gets data/act-conclude.js; try 2 gets these. Same question slots as version 1.
+   Levels 2–6 (11/11) stay in one lane: a character's choice and what follows from it. Each level's
+   conclusions and lessons differ from version 1 of that level (v1 lessons: L2 keep practicing / wait
+   your turn · L3 get ready / a new way to have fun · L4 try new things / be patient · L5 be kind when
+   you lose / words and feelings · L6 share / get all the facts). */
 window.INF_VERSIONS = window.INF_VERSIONS || {};
 window.INF_VERSIONS.conclude = {
   2: {
@@ -72,6 +76,380 @@ window.INF_VERSIONS.conclude = {
             kinds: [null, 'onedetail', 'opposite', 'noclue'],
             notes: [null, 'Pia gave a tiny wave in paragraph 1. That is one detail, not the lesson.', 'Ella shared her crayons, and Pia smiled. The story shows the opposite.', 'The lunch bell is one small part of the story. It is not the lesson.'],
             why: 'In paragraph 2, Pia sits alone and looks at the floor. In paragraph 3, Ella shares her crayons. In paragraph 4, the girls draw and talk. Ella learns it is important to be kind to someone new.' }
+        ] }
+    ],
+
+    /* ═══ LEVEL 2 · FK 2.5 ═══════════════════════════════ */
+    2: [
+      { title: 'Ten Tickets at the Spring Fair', genre: 'story',
+        paragraphs: [
+          `At the school spring fair, Grandma gave Remy ten tickets. His big sister, Lottie, pointed at the dragon ride. "That ride costs six tickets," she said. "Let's ride it after lunch!"`,
+          'Then Remy saw the duck pond. A giant stuffed bear sat on the top shelf. Each duck cost one ticket. Remy picked one duck after another. Each time, he won a tiny rubber frog.',
+          'After lunch, Lottie waved to Remy from the line for the dragon ride. Remy reached into his pocket, but it was empty. He sat on a hay bale with ten rubber frogs in his lap and watched the dragon zoom by.',
+          'The next spring, Grandma gave Remy ten new tickets. Remy looked at the duck pond. Then he looked at the dragon ride. He folded the tickets and tucked them deep in his pocket.'
+        ],
+        items: [
+          { id: 'D01', type: 'mc', skill: 'Drawing conclusions',
+            q: 'What conclusion can be drawn about Remy?',
+            choices: ['Remy used up all his tickets at the duck pond.', 'Remy dropped all his tickets on the way to lunch.', 'Remy won a big prize at the duck pond.', 'Remy gave all his tickets to Lottie.'],
+            kinds: [null, 'opposite', 'opposite', 'noclue'],
+            notes: [null, 'Paragraph 2 says each duck cost one ticket, and Remy picked duck after duck. His tickets did not drop.', 'Paragraph 2 says each time, Remy won a tiny rubber frog.', 'The passage never says Remy gave tickets to Lottie.'],
+            chart: { facts: 'Remy picked one duck after another, and then his pocket was empty.', know: 'If you keep spending tickets, you run out.', conclusion: 'Remy used up all his tickets at the duck pond.' },
+            why: 'Paragraph 2 says each duck cost one ticket. Remy picked one duck after another. Paragraph 3 says his pocket was empty. He had ten frogs. So Remy used up all his tickets at the duck pond.' },
+          { id: 'D02', type: 'mc', skill: 'Predicting',
+            q: 'What will Remy most likely do next?',
+            choices: ['He will save his tickets for the dragon ride.', 'He will spend his tickets at the duck pond.', 'He will sit on a hay bale and watch the ride.', 'He will give his new tickets back to Grandma.'],
+            kinds: [null, 'opposite', 'wrongtime', 'noclue'],
+            notes: [null, 'Paragraph 4 says Remy tucked his new tickets deep in his pocket. He is not spending them at the duck pond.', 'Remy sat on the hay bale last spring, in paragraph 3.', 'Paragraph 4 says Remy kept the tickets in his pocket. No clue says he will give them back.'],
+            why: 'Paragraph 3 says Remy had to watch the dragon ride from a hay bale. Paragraph 4 says he looked at the ride. Then he tucked his tickets deep in his pocket. So he will most likely save his tickets for the ride.' },
+          { id: 'D03', type: 'mc', skill: 'Drawing conclusions',
+            q: 'Why does Remy pick one duck after another?',
+            choices: ['He wants to win the giant stuffed bear.', 'He wants to win tickets for the dragon ride.', 'Lottie asked him to play the duck pond game.', 'Grandma told him to play every game at the fair.'],
+            kinds: [null, 'opposite', 'opposite', 'noclue'],
+            notes: [null, 'Paragraph 2 says the duck pond gave tiny frogs, not tickets.', 'Paragraph 1 says Lottie wanted to go on the dragon ride.', 'The passage never says Grandma told Remy to play every game.'],
+            why: 'The passage does not say why. Paragraph 2 says a giant bear sat on the top shelf. Remy picked duck after duck, but he only won tiny frogs. So he wants to win the giant bear.' },
+          { id: 'D04', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Remy learns in the passage?',
+            choices: ['It is important to think before you spend.', 'It is important to play every game at the fair.', 'It is important to keep trying to win the big prize.', 'It is important to go to the fair with a big sister.'],
+            kinds: [null, 'noclue', 'opposite', 'onedetail'],
+            notes: [null, 'The story is about one game and one ride. It never shows Remy play every game.', 'Remy kept trying for the bear, and he missed the ride. The story shows the opposite.', 'Lottie is one detail in the story. Going with her is not what Remy learns.'],
+            why: 'In paragraph 2, Remy spends all his tickets on one game. In paragraph 3, he has none left for the ride. In paragraph 4, he keeps his new tickets. Remy learns to think before he spends.' }
+        ] },
+
+      { title: 'Five Minutes Until the Bus', genre: 'story',
+        paragraphs: [
+          'On Friday morning, Tia sat at the kitchen table. She was drawing a horse with her crayons. "The bus comes in five minutes," Dad said. Tia nodded, but she kept her eyes on her paper.',
+          'She gave the horse a long tail, a shiny mane and a red saddle. At last, she grabbed her backpack and ran outside. The yellow bus was already turning the corner.',
+          'Dad drove Tia to school. When she walked in, her class was just coming back from the gym. Everyone was talking about the puppet show. "The pirate puppet sneezed!" her friend Rhea said with a giggle.',
+          'On Monday morning, Tia was drawing again when Dad said, "Five minutes." Tia looked up at the clock. Then she looked at her horse picture on the fridge.'
+        ],
+        items: [
+          { id: 'D05', type: 'mc', skill: 'Drawing conclusions',
+            q: 'What conclusion can be drawn about Tia?',
+            choices: ['Tia missed the puppet show at school.', 'Tia rode the bus to school on Friday.', 'Tia did not like the puppet show.', 'Tia was sick on Friday morning.'],
+            kinds: [null, 'opposite', 'noclue', 'noclue'],
+            notes: [null, 'Paragraph 2 says the bus was already turning the corner. Dad had to drive Tia.', 'Paragraph 3 says the class was coming back when Tia got there.', 'No clue in the passage says Tia was sick.'],
+            chart: { facts: 'Tia got to school late, and her class was coming back from a puppet show.', know: 'When you get somewhere late, you can miss things.', conclusion: 'Tia missed the puppet show at school.' },
+            why: 'Paragraph 2 says the bus was already turning the corner. Dad had to drive Tia. Paragraph 3 says her class was just coming back. Everyone was talking about the puppet show. So Tia missed the show.' },
+          { id: 'D06', type: 'mc', skill: 'Predicting',
+            q: 'What will Tia most likely do next?',
+            choices: ['She will stop drawing and get ready for the bus.', 'She will keep drawing until the bus is gone.', 'She will go to the gym to see the puppet show.', 'She will ask Dad to buy her a new box of crayons.'],
+            kinds: [null, 'opposite', 'wrongtime', 'noclue'],
+            notes: [null, 'Paragraph 4 says Tia looked up at the clock this time. She is thinking about the time.', 'The puppet show was on Friday, in paragraph 3.', null],
+            why: 'Paragraph 3 shows that Tia missed the fun. Paragraph 4 says she looked up at the clock. So she will most likely stop drawing and get ready for the bus.' },
+          { id: 'D07', type: 'mc', skill: 'Drawing conclusions',
+            q: 'Why does Tia keep her eyes on her paper?',
+            choices: ['She wants to finish her horse picture.', 'She does not want to go to school.', 'Dad told her to finish the horse first.', 'She is looking for her red crayon.'],
+            kinds: [null, 'opposite', 'opposite', 'noclue'],
+            notes: [null, 'Paragraph 2 says Tia grabbed her backpack and ran to catch the bus. She wanted to go.', 'Paragraph 1 says Dad told Tia the bus was coming soon.', 'No clue says Tia lost a crayon. She used red for the saddle.'],
+            why: 'The passage does not say why. Paragraph 1 says Tia was drawing a horse. Paragraph 2 says she gave it a tail, a mane and a saddle before she ran out. So she wants to finish her horse picture.' },
+          { id: 'D08', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Tia learns in the passage?',
+            choices: ['It is important to be on time.', 'It is important to finish every picture first.', 'It is important to give a horse a red saddle.', 'It is important to ride to school with Dad.'],
+            kinds: [null, 'opposite', 'onedetail', 'noclue'],
+            notes: [null, 'Tia finished her picture first, and she missed the bus. The story shows the opposite.', 'The red saddle is one detail in paragraph 2. It is not the lesson.', 'Dad drove Tia one time, in paragraph 3. That is not what Tia learns.'],
+            why: 'In paragraph 1, Tia keeps drawing when the bus is coming. In paragraph 3, she gets to school late and misses the show. In paragraph 4, she looks at the clock. Tia learns to be on time.' }
+        ] }
+    ],
+
+    /* ═══ LEVEL 3 · FK 3.0 ═══════════════════════════════ */
+    3: [
+      { title: 'Apple Picking at Hill Farm', genre: 'story',
+        paragraphs: [
+          `Ms. Quill's class took a bus to Hill Farm to pick apples. Before they got off, she held up a little bell. "Stay with your buddy," she said, "and come back to the red wagon when you hear this bell."`,
+          'Emil and his buddy, Saul, picked apples from a short tree by the wagon. Then Emil spotted a tree far down the row with apples as big as softballs. He ran to it and did not look back.',
+          'Emil picked the biggest apple on the tree. When he turned around, he saw only apple trees in every direction. He could not see Saul or the red wagon, and his heart pounded.',
+          'At last, a farmer on a tractor came rumbling down the row. She drove Emil back to the wagon, where Ms. Quill was waiting with a pale face.',
+          'After lunch, the class lined up to walk to the cider barn across the farm. Saul held out his hand. Emil looked at the long rows of trees.'
+        ],
+        items: [
+          { id: 'D01', type: 'mc', skill: 'Drawing conclusions',
+            q: 'What conclusion can be drawn about Emil?',
+            choices: ['Emil got lost in the rows of apple trees.', 'Emil knew the way back to the red wagon.', 'Emil ran off to play a trick on Saul.', `Emil wanted a ride on the farmer's tractor.`],
+            kinds: [null, 'opposite', 'noclue', 'noclue'],
+            notes: [null, 'Paragraph 3 says Emil could not see the wagon. A farmer had to drive him back.', 'No clue in the passage says Emil wanted to trick Saul.', 'Paragraph 4 says the farmer drove Emil back. No clue says he wanted a ride.'],
+            chart: { facts: 'Emil saw only apple trees, and he could not see Saul or the wagon.', know: 'If you cannot see your group, you can get lost.', conclusion: 'Emil got lost in the rows of apple trees.' },
+            why: 'Paragraph 3 says Emil saw only apple trees, and he could not see Saul or the wagon. Paragraph 4 says a farmer had to drive him back. So Emil got lost in the rows of apple trees.' },
+          { id: 'D02', type: 'mc', skill: 'Predicting',
+            q: 'What will Emil most likely do next?',
+            choices: [`He will hold Saul's hand on the walk.`, 'He will run off to find a bigger apple.', 'He will pick more apples by the wagon.', 'He will ride to the barn on the tractor.'],
+            kinds: [null, 'opposite', 'wrongtime', 'noclue'],
+            notes: [null, 'Paragraph 3 shows how scary it was to be alone in the rows. Emil will not want that again.', 'Emil picked apples by the wagon in paragraph 2. Now the class is walking to the barn.', 'Paragraph 5 says the class will walk to the barn. No clue says Emil will ride.'],
+            why: `Paragraph 3 says Emil could not find Saul, and his heart pounded. Paragraph 5 says Saul held out his hand, and Emil looked at the long rows. So Emil will most likely hold Saul's hand on the walk.` },
+          { id: 'D03', type: 'mc', skill: 'Drawing conclusions',
+            q: 'Why does Emil run to the tree far down the row?',
+            choices: ['He wants to pick the biggest apples.', 'Ms. Quill told him to go to that tree.', 'He wants to find the cider barn.', 'He hears the bell and wants to go back.'],
+            kinds: [null, 'opposite', 'wrongtime', 'opposite'],
+            notes: [null, 'Paragraph 1 tells what Ms. Quill said. She did not send Emil to a tree.', 'The class walks to the cider barn after lunch, in paragraph 5.', 'The bell means come back to the wagon. Emil ran away from the wagon.'],
+            why: 'The passage does not say why. Paragraph 2 says the tree had apples as big as softballs. Paragraph 3 says Emil picked the biggest apple on the tree. So he wants to pick the biggest apples.' },
+          { id: 'D04', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Emil learns in the passage?',
+            choices: ['It is important to stay with your group.', 'It is important to pick the biggest apple on a tree.', 'It is important to ride a bus to a farm.', 'It is important to bring a bell on a trip.'],
+            kinds: [null, 'opposite', 'onedetail', 'wrongwho'],
+            notes: [null, 'Emil ran off for a big apple, and he got lost. The story shows the opposite.', 'The bus ride is one detail in paragraph 1. It is not the lesson.', 'Ms. Quill had the bell. That is not what Emil learns.'],
+            why: 'In paragraph 2, Emil leaves his buddy. In paragraph 3, he cannot find anyone. In paragraph 5, Saul holds out his hand. Emil learns to stay with his group.' }
+        ] },
+
+      { title: `Gemma's Birthday Markers`, genre: 'story',
+        paragraphs: [
+          'For her birthday, Gemma got a box of twenty markers. She used them to draw a poster of a coral reef. Then she ran off to play. She left the markers in a messy pile on the table, and their caps rolled all over the floor.',
+          'The next week, Gemma brought her markers to school. She had to make a sign for the class garden. She pulled out the green one and pressed it to the paper. It made only a pale, scratchy line. Her blue and red ones did the same.',
+          `Gemma's friend Una sat at the next desk. Una's markers were three years old, but every cap was clicked on tight. Her sign had thick, bright letters. Una held out her purple marker, and Gemma used it to finish her sign.`,
+          'On Saturday, Grandma gave Gemma a new box of markers. Gemma drew a parrot with a long red tail. Then she looked at the red marker in her hand and at the cap on the table.'
+        ],
+        items: [
+          { id: 'D05', type: 'mc', skill: 'Drawing conclusions',
+            q: `What conclusion can be drawn about Gemma's markers?`,
+            choices: [`Gemma's markers had dried out.`, `Gemma's markers worked better than Una's.`, `Gemma's markers were too old to work.`, `Gemma's markers were broken in half.`],
+            kinds: [null, 'opposite', 'opposite', 'noclue'],
+            notes: [null, `Paragraph 3 says Una's sign had thick, bright letters. Gemma's markers made pale lines.`, 'Paragraph 1 says Gemma got the markers for her birthday. They were not old.', 'No clue says the markers were broken. They made pale, scratchy lines.'],
+            chart: { facts: `Gemma's markers made only pale, scratchy lines.`, know: 'A marker that makes a pale, scratchy line has run dry.', conclusion: `Gemma's markers had dried out.` },
+            why: `Paragraph 2 says the green marker made only a pale, scratchy line. The blue and red ones did the same. A marker like that has run dry. So Gemma's markers had dried out.` },
+          { id: 'D06', type: 'mc', skill: 'Predicting',
+            q: 'What will Gemma most likely do next?',
+            choices: ['She will put the cap back on the red marker.', 'She will leave her new markers in a messy pile.', 'She will ask Una for her purple marker.', 'She will give the new markers to Grandma.'],
+            kinds: [null, 'opposite', 'wrongtime', 'noclue'],
+            notes: [null, 'Paragraph 4 says Gemma looked at the marker in her hand and at the cap. She is not running off this time.', 'Paragraph 3 is at school. Now Gemma is at home with her new markers.', 'Paragraph 4 says Grandma gave the markers to Gemma. No clue says she will give them back.'],
+            why: `Paragraph 1 says Gemma's caps rolled all over the floor. Paragraph 3 says Una's caps were on tight, and her old markers still worked. Paragraph 4 says Gemma looked at the cap. So she will most likely put the cap back on.` },
+          { id: 'D07', type: 'mc', skill: 'Drawing conclusions',
+            q: 'Why does Una hold out her purple marker?',
+            choices: ['She wants to help Gemma finish her sign.', 'She wants to trade it for a green marker.', 'Her purple marker does not work anymore.', 'The teacher told her to give it away.'],
+            kinds: [null, 'noclue', 'opposite', 'noclue'],
+            notes: [null, `Gemma's green marker made only a pale line. No clue says Una wanted it.`, `Paragraph 3 says Una's markers made thick, bright letters.`, 'The passage never says the teacher told Una to do this.'],
+            why: `The passage does not say why. Paragraph 2 shows Gemma's markers would not work. Paragraph 3 says Una held out her marker, and Gemma finished her sign. So Una wants to help Gemma finish her sign.` },
+          { id: 'D08', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Gemma learns in the passage?',
+            choices: ['It is important to take care of your things.', 'It is important to draw with every color.', 'It is important to make a sign for a garden.', 'It is important to get new markers each week.'],
+            kinds: [null, 'noclue', 'onedetail', 'opposite'],
+            notes: [null, 'The passage does not tell about using every color.', 'The garden sign is one detail in paragraph 2. It is not the lesson.', `Una's markers were old, and they still worked. The story shows the opposite.`],
+            why: 'In paragraph 1, Gemma leaves her markers in a pile with no caps. In paragraph 2, they will not work. In paragraph 3, Una\'s old markers still work. Gemma learns to take care of her things.' }
+        ] }
+    ],
+
+    /* ═══ LEVEL 4 · FK 3.5 ═══════════════════════════════ */
+    4: [
+      { title: 'Volcano Peppers on Pine Street', genre: 'story',
+        paragraphs: [
+          `Every June, Pine Street holds a food festival with music, games and long tables of delicious food. This year, Ronan wandered from table to table with his big cousin, Dante, and two of Dante's friends.`,
+          `At the last table, a sign said VOLCANO PEPPERS: TRY ONE IF YOU DARE. A bowl of tiny red peppers sat beside a big pitcher of milk. "I dare you to eat one," Dante said with a grin. His friends started chanting Ronan's name.`,
+          'Ronan did not like spicy food, and even mild salsa made him cough. But he glanced at the older boys, picked up a pepper and popped it into his mouth.',
+          `A second later, tears streamed down his cheeks. His face turned as red as the pepper, and he gulped down two cups of milk. Dante's friends laughed so hard that they had to hold on to the table.`,
+          'Later, the boys stopped at a booth that sold Fire Sauce. Dante held out a spoonful and asked, "One more dare?" Ronan looked at the spoon. Then he looked at the lemonade stand across the street.'
+        ],
+        items: [
+          { id: 'D01', type: 'mc', skill: 'Drawing conclusions',
+            q: 'What conclusion can be drawn about the volcano peppers?',
+            choices: ['The volcano peppers were very hot.', 'The volcano peppers were sweet like candy.', 'The volcano peppers were too big to eat.', 'The volcano peppers made Dante cry.'],
+            kinds: [null, 'opposite', 'opposite', 'wrongwho'],
+            notes: [null, `Paragraph 4 says tears streamed down Ronan's cheeks, and he gulped milk. Sweet candy does not do that.`, 'Paragraph 2 says the peppers were tiny.', 'Paragraph 4 is about Ronan. Dante did not eat a pepper.'],
+            chart: { facts: 'Ronan cried, his face turned red, and he gulped two cups of milk.', know: 'Very hot food can make your eyes water and your mouth burn.', conclusion: 'The volcano peppers were very hot.' },
+            why: 'Paragraph 2 says a pitcher of milk sat next to the peppers. Paragraph 4 says Ronan cried, his face turned red, and he gulped milk. So the volcano peppers were very hot.' },
+          { id: 'D02', type: 'mc', skill: 'Predicting',
+            q: 'What will Ronan most likely do next?',
+            choices: ['He will say no to the Fire Sauce.', 'He will eat the spoonful of Fire Sauce.', 'He will dare Dante to eat a pepper.', 'He will gulp down two cups of milk.'],
+            kinds: [null, 'opposite', 'noclue', 'wrongtime'],
+            notes: [null, 'Paragraph 5 says Ronan looked away from the spoon to the lemonade stand.', 'No clue in the passage says Ronan wants to dare Dante.', 'Ronan gulped milk after the pepper, in paragraph 4.'],
+            why: 'Paragraph 4 shows how much the pepper hurt. Paragraph 5 says Ronan looked at the spoon and then at the lemonade stand. So he will most likely say no to the Fire Sauce.' },
+          { id: 'D03', type: 'mc', skill: 'Drawing conclusions',
+            q: 'Why does Ronan eat the pepper?',
+            choices: ['He wants the older boys to think he is brave.', 'He loves to eat very spicy food.', 'He is very thirsty and wants some milk.', 'Dante paid him a dollar to eat it.'],
+            kinds: [null, 'opposite', 'noclue', 'noclue'],
+            notes: [null, 'Paragraph 3 says Ronan did not like spicy food.', 'The milk was for after the pepper. No clue says Ronan wanted milk first.', 'The passage never says Dante paid Ronan.'],
+            why: 'The passage does not say why. Paragraph 2 says the older boys dared Ronan and chanted his name. Paragraph 3 says Ronan did not like spicy food, but he looked at the boys and ate it. So he wants them to think he is brave.' },
+          { id: 'D04', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Ronan learns in the passage?',
+            choices: ['It is important to make your own choices.', 'It is important to do what older kids dare you to do.', 'It is important to drink milk with spicy food.', 'It is important to stay close to your cousin.'],
+            kinds: [null, 'opposite', 'onedetail', 'noclue'],
+            notes: [null, 'Ronan did what the older boys dared, and it hurt. The story shows the opposite.', 'The milk is one detail in paragraph 4. It is not the lesson.', 'Ronan walks with Dante, but that is not what he learns.'],
+            why: 'In paragraph 3, Ronan eats the pepper only because the older boys dare him. In paragraph 4, it burns his mouth. In paragraph 5, he stops to think before a new dare. Ronan learns to make his own choices.' }
+        ] },
+
+      { title: 'Twenty Cards with Gold Stars', genre: 'story',
+        paragraphs: [
+          `Esme's family was having a big party for Grandpa's seventieth birthday. Esme begged to make the invitations herself. Mom wrote the address on a sticky note: 241 Maple Street. Esme copied it onto twenty cards in her fanciest letters and added gold stars. She kept one card for Grandpa's scrapbook and mailed the rest that same day.`,
+          `On the day of the party, the living room was full of balloons and food. By two o'clock, though, only a few guests had arrived. Grandpa sat in his armchair and kept glancing at the door.`,
+          'Then the phone rang. It was Mrs. Paz, who lives at 214 Maple Street, at the other end of the block. "Six people are on my porch with presents," she said. "Is there a party somewhere?"',
+          'Esme ran to her desk and found the one card she never mailed. She read the address and covered her mouth with her hand. Dad grabbed his jacket and hurried out the door.',
+          'After the party, Grandpa asked Esme to address the envelopes for his thank-you notes. He handed her his address book. Esme picked up her pen, but then she stopped and looked at the card she never mailed.'
+        ],
+        items: [
+          { id: 'D05', type: 'mc', skill: 'Drawing conclusions',
+            q: 'What conclusion can be drawn about Esme?',
+            choices: ['Esme wrote the wrong house number on the cards.', 'Esme forgot to put stamps on all twenty cards.', 'Esme mailed the cards to people in the wrong town.', 'Esme did not want guests at the party.'],
+            kinds: [null, 'noclue', 'opposite', 'opposite'],
+            notes: [null, 'The passage never tells about stamps. The guests got the cards.', 'Paragraph 3 says the guests went to Maple Street, just down the block.', 'Paragraph 1 says Esme begged to make the invitations.'],
+            chart: { facts: 'The party was at 241 Maple Street, but guests went to 214 Maple Street.', know: 'If a card has the wrong address, people go to the wrong place.', conclusion: 'Esme wrote the wrong house number on the cards.' },
+            why: 'Paragraph 1 says the party was at 241 Maple Street. Paragraph 3 says guests went to Mrs. Paz at 214. Paragraph 4 says Esme read her card and covered her mouth. So Esme wrote the wrong house number on the cards.' },
+          { id: 'D06', type: 'mc', skill: 'Predicting',
+            q: 'What will Esme most likely do next?',
+            choices: ['She will check every address carefully.', 'She will copy the addresses as fast as she can.', 'She will ask Mrs. Paz to write the notes.', 'She will add gold stars to every envelope.'],
+            kinds: [null, 'opposite', 'wrongwho', 'noclue'],
+            notes: [null, 'Paragraph 5 says Esme stopped and looked at the card she never mailed. She is slowing down this time.', 'Grandpa asked Esme to do the envelopes, not Mrs. Paz.', null],
+            why: 'Paragraph 4 shows that Esme found a mistake on her card. Paragraph 5 says she stopped and looked at that card before she wrote. So she will most likely check every address carefully.' },
+          { id: 'D07', type: 'mc', skill: 'Drawing conclusions',
+            q: 'Why does Dad hurry out the door?',
+            choices: [`He is going to bring the guests from Mrs. Paz's porch.`, 'He is going to the store to buy more balloons for the party.', 'He is going to mail the last card to a guest.', 'He is going to pick up the birthday cake.'],
+            kinds: [null, 'opposite', 'noclue', 'noclue'],
+            notes: [null, 'Paragraph 2 says the room was already full of balloons.', 'The party has already started. No clue says Dad will mail the card.', 'The passage never tells about a birthday cake.'],
+            why: `The passage does not say why. Paragraph 3 says six guests were on Mrs. Paz's porch at the other end of the block. Right after that, Dad hurried out. So he is going to bring those guests to the party.` },
+          { id: 'D08', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Esme learns in the passage?',
+            choices: ['It is important to check your work.', 'It is important to write in your fanciest letters.', 'It is important to have a party for Grandpa.', 'It is important to answer the phone fast.'],
+            kinds: [null, 'onedetail', 'noclue', 'noclue'],
+            notes: [null, `Esme's fancy letters are one detail in paragraph 1. They are not the lesson.`, 'The party is where the story happens. It is not what Esme learns.', 'The phone call is one part of paragraph 3. It is not the lesson.'],
+            why: 'In paragraph 1, Esme mails the cards the same day she writes them. In paragraphs 3 and 4, she finds out the guests went to the wrong house. In paragraph 5, she stops before she writes. Esme learns to check her work.' }
+        ] }
+    ],
+
+    /* ═══ LEVEL 5 · FK 4.0 ═══════════════════════════════ */
+    5: [
+      { title: 'The Book with the Faded Cover', genre: 'story',
+        paragraphs: [
+          'Every spring, the Elm Street Library holds a book swap. Kids trade a book they have finished for one they have never read. This year, Oren arrived early and went straight to a shiny book with a golden spaceship on the cover. "This one looks amazing," he said, tucking it under his arm.',
+          'His friend Ada chose a thin book with a torn, faded cover. Oren wrinkled his nose and said, "That one looks so boring." Ada just shrugged and slipped it into her backpack.',
+          'On Saturday, Oren curled up on the couch with the spaceship book. For twenty pages, the astronauts just sat in their ship and talked about the weather. Oren yawned, flipped ahead and yawned again. At last, he dropped the book on the floor and turned on the TV.',
+          'At recess on Monday, Ada could not stop talking about her book. It was about a girl who sailed a tiny boat across the ocean to search for her lost brother. Ada waved her arms and swayed to show how the waves tossed the boat in a terrible storm. Oren leaned closer and asked what happened next, but Ada only grinned. "Read it and find out," she said.',
+          'A month later, the library held another book swap. Oren walked right past the table of shiny new books. At the end of the table, he picked up a book with a plain brown cover.'
+        ],
+        items: [
+          { id: 'D01', type: 'mc', skill: 'Drawing conclusions',
+            q: 'What conclusion can be drawn about Ada?',
+            choices: ['Ada loved the book with the faded cover.', 'Ada thought her new book was boring.', 'Ada wished she had picked the spaceship book.', 'Ada sailed a tiny boat through a storm.'],
+            kinds: [null, 'opposite', 'noclue', 'wrongwho'],
+            notes: [null, 'Paragraph 4 says Ada could not stop talking about her book.', 'No clue in the passage says Ada wanted the spaceship book.', `Paragraph 4 tells about a girl in Ada's book. Ada was at recess, not on a boat.`],
+            chart: { facts: 'Ada could not stop talking about her book, and she acted out the storm.', know: 'People talk a lot about a book they really like.', conclusion: 'Ada loved the book with the faded cover.' },
+            why: 'Paragraph 4 says Ada could not stop talking about her book. She swayed and waved her arms to act out the storm. So Ada loved the book with the faded cover.' },
+          { id: 'D02', type: 'mc', skill: 'Predicting',
+            q: 'What will Oren most likely do next?',
+            choices: ['He will read a few pages of the brown book.', 'He will put it back and grab a shiny book.', 'He will stay home and skip the book swap.', 'He will give the brown book to Ada as a gift.'],
+            kinds: [null, 'opposite', 'opposite', 'noclue'],
+            notes: [null, 'Paragraph 5 says Oren walked right past the shiny books this time.', 'Paragraph 5 says Oren is already at the book swap.', null],
+            why: 'Paragraph 4 shows that Ada loved her plain-looking book. Paragraph 5 says Oren walked past the shiny books and picked up a plain one. So he will most likely read a few pages of the brown book.' },
+          { id: 'D03', type: 'mc', skill: 'Drawing conclusions',
+            q: 'Why does Oren drop the spaceship book on the floor?',
+            choices: ['He thinks the story is boring.', 'He wants to save it for bedtime.', 'The words in it are too hard for him.', 'He wants to trade it with Ada.'],
+            kinds: [null, 'noclue', 'noclue', 'noclue'],
+            notes: [null, 'No clue says Oren will read it later. He turned on the TV.', 'No clue says the words were hard. Oren read twenty pages.', 'The passage never says Oren asked Ada to trade.'],
+            why: 'The passage does not say why. Paragraph 3 says the astronauts just talked about the weather for twenty pages. Oren yawned and flipped ahead. So he thinks the story is boring.' },
+          { id: 'D04', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Oren learns in the passage?',
+            choices: ['It is important not to judge something by how it looks.', 'It is important to pick the book with the shiniest cover.', 'It is important to act out the stories you read.', 'It is important to get to the library early.'],
+            kinds: [null, 'opposite', 'wrongwho', 'onedetail'],
+            notes: [null, 'Oren picked the shiniest book, and it was dull. The story shows the opposite.', 'Ada acts out her book in paragraph 4. That is not what Oren learns.', 'Getting there early is one detail in paragraph 1. It is not the lesson.'],
+            why: 'In paragraph 1, Oren picks a book for its shiny cover. In paragraphs 3 and 4, the shiny book is dull, and the faded book is exciting. In paragraph 5, he picks a plain book. Oren learns not to judge something by how it looks.' }
+        ] },
+
+      { title: 'Noor and the Morning Announcements', genre: 'story',
+        paragraphs: [
+          'Every morning at Brook School, a fourth grader reads the announcements over the loudspeaker. Noor knew the whole routine by heart: the date, the weather, the lunch menu and a joke of the day. At home, she read the backs of cereal boxes into a wooden spoon as if it were a microphone.',
+          `On Monday, Ms. Ortega asked who would like to be the announcer for next month. Noor's fingers twitched on her desk. She stared at the floor and kept her hand flat. Across the room, Hollis waved his arm high in the air. Ms. Ortega picked him.`,
+          'All month, Noor listened to Hollis read. He mixed up the days of the week, and he laughed at his jokes before he reached the funny part. Every morning, Noor silently mouthed the words along with him. Then she sighed and stared at the speaker on the wall.',
+          'On the last day of the month, Ms. Ortega taped a sign-up sheet beside the door for the next announcer. Noor stood in front of it for a long moment. The first line was still empty. Then she looked at the pencil hanging on a string beside the sheet.'
+        ],
+        items: [
+          { id: 'D05', type: 'mc', skill: 'Drawing conclusions',
+            q: 'What conclusion can be drawn about Noor?',
+            choices: ['Noor wanted to be the announcer.', 'Noor did not care who read the announcements.', 'Noor thought Hollis was a great announcer.', 'Noor wanted to be the lunch helper.'],
+            kinds: [null, 'opposite', 'opposite', 'noclue'],
+            notes: [null, 'Paragraph 3 says Noor mouthed the words every morning and sighed. She cared a lot.', 'Paragraph 3 says Hollis mixed up the days and laughed too soon.', 'The lunch menu is part of the announcements. No clue says Noor wants a lunch job.'],
+            chart: { facts: 'Noor knew the announcements by heart and practiced into a wooden spoon.', know: 'People practice for a job they really want.', conclusion: 'Noor wanted to be the announcer.' },
+            why: 'Paragraph 1 says Noor knew the announcements by heart, and she practiced with a wooden spoon. Paragraph 3 says she mouthed the words every morning. So Noor wanted to be the announcer.' },
+          { id: 'D06', type: 'mc', skill: 'Predicting',
+            q: 'What will Noor most likely do next?',
+            choices: ['She will write her name on the sign-up sheet.', 'She will walk away and leave the first line empty.', 'She will tell Hollis to sign up again.', 'She will read the menu into a wooden spoon.'],
+            kinds: [null, 'opposite', 'noclue', 'wrongtime'],
+            notes: [null, 'Paragraph 4 says Noor stood at the sheet for a long time and looked at the pencil.', 'The passage never says Noor wants Hollis to read again.', 'Noor practiced at home, in paragraph 1. Now she is at school.'],
+            why: 'Paragraph 2 shows Noor kept her hand down and lost her chance. Paragraph 4 says she stood at the empty sign-up sheet and looked at the pencil. So she will most likely write her name on the sheet.' },
+          { id: 'D07', type: 'mc', skill: 'Drawing conclusions',
+            q: 'Why does Noor keep her hand flat on her desk?',
+            choices: ['She feels too shy to ask for the job.', 'She does not know how to read well.', 'She wants Hollis to get the job.', 'Ms. Ortega told her to keep her hands down.'],
+            kinds: [null, 'opposite', 'opposite', 'noclue'],
+            notes: [null, 'Paragraph 1 says Noor read cereal boxes out loud at home. She can read.', 'Paragraph 3 says Noor sighed each morning when Hollis read.', null],
+            why: `The passage does not say why. Paragraph 2 says Noor's fingers twitched, but she stared at the floor. People look down when they feel shy. So she feels too shy to ask for the job.` },
+          { id: 'D08', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Noor learns in the passage?',
+            choices: ['It is important to speak up for what you want.', 'It is important to let others go first.', 'It is important to laugh at your own jokes.', 'It is important to read the lunch menu.'],
+            kinds: [null, 'opposite', 'wrongwho', 'onedetail'],
+            notes: [null, 'Noor stayed quiet and let Hollis go first, and she was sad all month. The story shows the opposite.', 'Hollis laughed at his own jokes in paragraph 3. That is not what Noor learns.', 'The lunch menu is one detail in paragraph 1. It is not the lesson.'],
+            why: 'In paragraph 2, Noor stays quiet, and Hollis gets the job. In paragraph 3, she wishes she had the job. In paragraph 4, she stands at the sign-up sheet. Noor learns to speak up for what she wants.' }
+        ] }
+    ],
+
+    /* ═══ LEVEL 6 · FK 4.5 ═══════════════════════════════ */
+    6: [
+      { title: 'The Early Boat from Gull Harbor', genre: 'story',
+        paragraphs: [
+          `All summer, Sadie had been counting the days until her whale trip with Uncle Ike. The boat would leave Gull Harbor at seven o'clock on Saturday morning. So on Friday night, Sadie slept over at her cousin Leni's house, a few blocks from the dock.`,
+          `At nine o'clock, Uncle Ike poked his head into the girls' room. "Lights out," he said. "We have a big day tomorrow." As soon as his footsteps faded, Leni pulled out a deck of cards and a flashlight. The girls built a tent out of sheets and played game after game. They giggled quietly until the clock on the dresser glowed 12:30.`,
+          `The next morning, Uncle Ike had to shake Sadie's shoulder three times before she opened her eyes. On the boat, the wind smelled like salt, and the engine hummed a low, steady song. Sadie found a sunny spot on a bench, leaned her head against her rolled-up jacket and closed her eyes for just a minute.`,
+          'A loud cheer made Sadie sit straight up and rub her eyes. Everyone on the deck was crowded at the rail, pointing and snapping pictures. By the time Sadie squeezed her way to the front, there was nothing left but a patch of foam on the gray water. "Did you see its tail?" Leni squealed. "It was as wide as a car!"',
+          'That evening, Uncle Ike stuck two tickets on the fridge for another whale trip on Sunday morning. After dinner, Leni waved the deck of cards and wiggled her eyebrows. Sadie looked at the cards, and then she looked at the tickets on the fridge.'
+        ],
+        items: [
+          { id: 'D01', type: 'mc', skill: 'Drawing conclusions',
+            q: 'What conclusion can be drawn about Sadie?',
+            choices: ['Sadie slept through the whale on the boat.', 'Sadie saw the whale before everyone else.', 'Sadie was too seasick to look at the water.', 'Sadie stayed home from the whale trip.'],
+            kinds: [null, 'opposite', 'noclue', 'opposite'],
+            notes: [null, 'Paragraph 4 says all Sadie saw was foam.', 'No clue in the passage says Sadie felt sick on the boat.', 'Paragraph 3 says Sadie found a bench on the boat.'],
+            chart: { facts: 'Sadie closed her eyes on the boat, and a cheer made her sit up after the whale was gone.', know: 'If you fall asleep, you can miss what happens around you.', conclusion: 'Sadie slept through the whale on the boat.' },
+            why: 'Paragraph 3 says Sadie shut her eyes on a bench. Paragraph 4 says a cheer made her sit up and rub her eyes. When she got to the rail, only foam was left. So Sadie slept through the whale.' },
+          { id: 'D02', type: 'mc', skill: 'Predicting',
+            q: 'What will Sadie most likely do next?',
+            choices: ['She will go to bed early tonight.', 'She will play cards with Leni until late.', 'She will ask to skip the trip on Sunday.', 'She will stick the tickets on the fridge.'],
+            kinds: [null, 'opposite', 'opposite', 'wrongwho'],
+            notes: [null, 'Paragraph 5 says Sadie looked at the cards. Then she looked at the tickets.', 'Sadie has wanted to see a whale all summer. She will not skip the trip.', 'Uncle Ike put the tickets up in paragraph 5. Sadie did not.'],
+            why: 'Paragraph 4 shows that Sadie missed the whale. Paragraph 5 says she looked at the cards. Then she looked at the tickets for Sunday. So she will most likely go to bed early tonight.' },
+          { id: 'D03', type: 'mc', skill: 'Drawing conclusions',
+            q: `Why does Leni wait until Uncle Ike's footsteps fade before she pulls out the cards?`,
+            choices: ['She does not want Uncle Ike to catch them playing.', 'She wants Uncle Ike to play cards with them.', 'She is afraid of the dark in the bedroom.', 'She has to wait for Uncle Ike to bring the cards.'],
+            kinds: [null, 'opposite', 'noclue', 'opposite'],
+            notes: [null, 'Paragraph 2 says Leni waited until Uncle Ike was gone. She did not ask him to play.', 'Leni had a flashlight, but no clue shows she is afraid of the dark.', 'Paragraph 2 says Leni pulled out the cards herself.'],
+            why: 'The passage does not say why. Paragraph 2 says Uncle Ike told the girls, "Lights out." Leni waited until he was gone. The girls giggled quietly. So Leni does not want Uncle Ike to catch them playing.' },
+          { id: 'D04', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Sadie learns in the passage?',
+            choices: ['It is important to get enough sleep before a big day.', 'It is important to sit in a sunny spot on a boat.', 'It is important to take pictures of every whale.', 'It is important to play cards with your cousin.'],
+            kinds: [null, 'onedetail', 'wrongwho', 'opposite'],
+            notes: [null, 'The sunny bench is one detail in paragraph 3. It is not the lesson.', 'The other people on the deck took pictures. That is not what Sadie learns.', 'Sadie played cards late, and she missed the whale. The story shows the opposite.'],
+            why: 'In paragraph 2, Sadie stays up very late. In paragraph 3, she falls asleep on the boat. In paragraph 4, she misses the whale. Sadie learns to get enough sleep before a big day.' }
+        ] },
+
+      // FACTS (story details): pumpkin seeds planted by late May grow big pumpkins by October;
+      // seeds planted in the middle of August have only about seven weeks before an October festival,
+      // so the pumpkin is still small and green. Pumpkins grow on long vines with big leaves.
+      { title: 'The Pumpkin Contest', genre: 'story',
+        paragraphs: [
+          `Every October, Willa's town holds a Fall Festival with a contest for the biggest pumpkin. In April, Willa's neighbor, Mrs. Otero, gave her a packet of pumpkin seeds. "Plant them by the end of May," she said. "Give them lots of water and sun."`,
+          'Willa taped the packet to her mirror. In May, she had softball games every Saturday. In June, she went to day camp. In July, her cousins came to stay for three weeks. Each time Willa saw the packet, she told herself there was plenty of time.',
+          `At last, on a hot afternoon in the middle of August, Willa dug a row of holes by the fence and dropped in the seeds. On the other side of the fence, Mrs. Otero's vines already covered her whole yard. Big round pumpkins peeked out from under the leaves.`,
+          `On the day of the festival, Willa set her pumpkin on the judge's scale. It was the size of a softball, and it was still mostly green. The judge raised his eyebrows. A few tables away, a crowd stood around Mrs. Otero's pumpkin. It was so heavy that it took three grown-ups to lift it.`,
+          'That evening, Willa scooped the seeds out of her little pumpkin and set them on a paper towel to dry. Then she took down the calendar and flipped ahead to next spring. She picked up a pencil.'
+        ],
+        items: [
+          { id: 'D05', type: 'mc', skill: 'Drawing conclusions',
+            q: 'What conclusion can be drawn about Mrs. Otero?',
+            choices: ['Mrs. Otero knows a lot about growing pumpkins.', 'Mrs. Otero did not want Willa to grow a pumpkin.', 'Mrs. Otero planted her seeds in the middle of August.', 'Mrs. Otero was the judge at the Fall Festival.'],
+            kinds: [null, 'opposite', 'opposite', 'wrongwho'],
+            notes: [null, 'Paragraph 1 says Mrs. Otero gave Willa the seeds.', 'Paragraph 3 says her vines already covered her yard in August.', 'Paragraph 4 says the judge is a man. Mrs. Otero had a pumpkin in the contest.'],
+            chart: { facts: 'Mrs. Otero knew when to plant, and her pumpkin took three grown-ups to lift.', know: 'People who grow huge plants know a lot about gardens.', conclusion: 'Mrs. Otero knows a lot about growing pumpkins.' },
+            why: 'Paragraph 1 says Mrs. Otero told Willa just when to plant. Paragraph 3 says her vines covered her yard. Paragraph 4 says it took three grown-ups to lift her pumpkin. So she knows a lot about growing pumpkins.' },
+          { id: 'D06', type: 'mc', skill: 'Predicting',
+            q: 'What will Willa most likely do next?',
+            choices: ['She will mark a day next spring to plant her seeds.', 'She will wait until August to plant her seeds again.', `She will ask Mrs. Otero for her giant pumpkin.`, 'She will set her pumpkin on the scale again.'],
+            kinds: [null, 'opposite', 'noclue', 'wrongtime'],
+            notes: [null, 'Paragraph 5 says Willa flipped the calendar ahead to spring.', `No clue says Willa wants to take Mrs. Otero's pumpkin.`, 'The contest is over. Paragraph 5 is that evening, at home.'],
+            why: 'Paragraph 3 says Willa planted in August, long after May. Paragraph 5 says she saved the seeds. Then she flipped the calendar to next spring and picked up a pencil. So she will most likely mark a day to plant her seeds.' },
+          { id: 'D07', type: 'mc', skill: 'Drawing conclusions',
+            q: 'Why does the judge raise his eyebrows?',
+            choices: [`He is surprised that Willa's pumpkin is so small.`, `He thinks Willa's pumpkin is the biggest one.`, `He wants to buy Willa's pumpkin for a pie.`, 'He cannot read the numbers on the scale.'],
+            kinds: [null, 'opposite', 'noclue', 'noclue'],
+            notes: [null, `Paragraph 4 says Willa's pumpkin was the size of a softball. A crowd stood around a much bigger one.`, 'No clue in the passage tells about a pie.', 'No clue says the judge had trouble with the scale.'],
+            why: `The passage does not say why. Paragraph 1 says the contest is for the biggest pumpkin. Paragraph 4 says Willa's pumpkin was the size of a softball and still green. So the judge is surprised that it is so small.` },
+          { id: 'D08', type: 'mc', skill: 'Theme',
+            q: 'Which statement BEST tells a lesson Willa learns in the passage?',
+            choices: ['It is important to plan ahead.', 'It is important to plant seeds on a hot day.', 'It is important to grow the biggest pumpkin.', 'It is important to go to day camp in June.'],
+            kinds: [null, 'onedetail', 'toofar', 'onedetail'],
+            notes: [null, 'The hot afternoon is one detail in paragraph 3. It is not the lesson.', 'Willa does not grow the biggest pumpkin. That is not what she learns.', 'Day camp is one detail in paragraph 2. It is not the lesson.'],
+            why: 'In paragraph 2, Willa keeps saying she has lots of time. In paragraph 4, her pumpkin is too small. In paragraph 5, she gets out the calendar for next spring. Willa learns to plan ahead.' }
         ] }
     ]
   }
