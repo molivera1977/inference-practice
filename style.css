@@ -1202,3 +1202,8 @@ body.teach-on { padding-bottom: 64px; }
   body.key-printing canvas { display: none !important; }
   body.key-printing .container { box-shadow: none; padding: 0; margin: 0; max-width: none; }
 }
+
+/* At sign-in the menu waits while the sheet is asked for the student's work from other Chromebooks (11/11) */
+.loading-work-note { display: none; text-align: center; font-weight: 800; color: #1f3a8a; margin: 6px 0 10px; }
+#section-select.loading-work .loading-work-note { display: block; }
+#section-select.loading-work .start-btn { opacity: 0.5; pointer-events: none; }

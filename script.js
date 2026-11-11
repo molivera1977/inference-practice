@@ -510,6 +510,56 @@ function allSectionsCompletedOnce(name) {
   return Object.keys(ACTIVITIES).every(k => scores.some(s => s.name === name && s.section === k && s.done));
 }
 
+/* ── WORK FROM OTHER CHROMEBOOKS (Marcos 11/11: "Fix try count") ──
+   This device remembers only the tries made on it, so a student at another Chromebook started over: the path,
+   ▶ Continue, the merry-go-round's gates and a retry's version 2 all read this device alone. At sign-in the site
+   asks the sheet for this ONE student's finished tries (the sheet script's 'progress' read, a POST so the name
+   is not in the address — the same read Math Module 3 uses since 11/6). The level comes from the row's Form
+   ("Level 3 · 3.0"). For each activity and level where the sheet has more finished tries than this device, the
+   missing ones are added here, best first, so a pass on any Chromebook counts and the try count is the real one.
+   No answer in 8 s, or no network: the site goes on with this device's own record, as before. A guest and the
+   share link are never looked up. */
+const SHEET_WAIT_MS = 8000;
+function levelOfForm(form) {
+  const m = /Level (\d+)/.exec(String(form || ''));
+  return m ? Number(m[1]) : 1;
+}
+function addSheetTries(name, games) {
+  const scores = JSON.parse(localStorage.getItem(SCORES_KEY) || '[]');
+  let added = 0;
+  Object.values(ACTIVITIES).forEach(act => {
+    const byLevel = {};
+    ((games || {})[act.game] || []).filter(t => Number(t.total) > 0).forEach(t => {
+      const L = levelOfForm(t.form);
+      (byLevel[L] = byLevel[L] || []).push(t);
+    });
+    Object.keys(byLevel).map(Number).filter(L => LEVELS.includes(L)).forEach(L => {
+      const tries = byLevel[L].sort((a, b) => b.score / b.total - a.score / a.total);   // best first: the best score always comes over
+      const here = scores.filter(s => s.name === name && s.section === act.key && (s.level || 1) === L && s.done && s.total > 0).length;
+      tries.slice(0, Math.max(0, tries.length - here)).forEach((t, i) => {
+        const at = new Date(t.finishedAt), when = isNaN(at) ? new Date() : at;
+        scores.push({ name, section: act.key, level: L, attempt: here + i + 1, score: Number(t.score), total: Number(t.total),
+          pct: Math.round(t.score / t.total * 100), elapsed: 0, date: when.toLocaleDateString(),
+          time: when.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), done: true, fromSheet: true });
+        added++;
+      });
+    });
+  });
+  if (added) localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
+  return added;
+}
+function loadSheetProgress(name) {
+  if (SHARE_MODE || !name || /\(Guest\)$/.test(name)) return Promise.resolve(0);
+  const ctl = typeof AbortController === 'function' ? new AbortController() : null;
+  const timer = setTimeout(() => { if (ctl) ctl.abort(); }, SHEET_WAIT_MS);
+  return fetch(SHEET_URL, { method: 'POST', body: JSON.stringify({ action: 'progress', name, games: Object.values(ACTIVITIES).map(a => a.game) }), signal: ctl ? ctl.signal : undefined })
+    .then(r => r.json())
+    .then(d => (d && d.name === name ? addSheetTries(name, d.games) : 0))
+    .catch(() => 0)
+    .finally(() => clearTimeout(timer));
+}
+let sheetProgressToken = 0;
+
 /* No try limit — a learning site. Every try is still its own row (Attempt 1, 2, 3 …).
    ── THE GATES (Marcos 10/20: "Everyone climbs from Level 1"; 11/11: "enforce the merri-go-round") ──
    One path in order, the class's order (FLOW, below): every activity at Level 1, then every activity at
@@ -1112,9 +1162,22 @@ const app = {
       document.getElementById('section-select').classList.remove('hidden');
       applyLocks(displayName);
       this.checkResume();
+      this.waitForSheetWork(displayName);
       const rmBtn = document.getElementById('review-mode-btn');
       if (rmBtn) rmBtn.classList.toggle('hidden', displayName !== 'Mr. O (Teacher)');
     }
+  },
+
+  /* The menu waits a moment while the sheet is asked for this student's work from other Chromebooks */
+  waitForSheetWork(name) {
+    const menu = document.getElementById('section-select');
+    const token = ++sheetProgressToken;
+    menu.classList.add('loading-work');
+    loadSheetProgress(name).then(added => {
+      if (token !== sheetProgressToken) return;           // another student signed in meanwhile
+      menu.classList.remove('loading-work');
+      if (added && loggedInName === name) applyLocks(name);
+    });
   },
 
   /* ── ATTEMPT START ── */
@@ -1144,6 +1207,7 @@ const app = {
 
   attemptStart(section, level) {
     if (!this.studentName) return;
+    if (document.getElementById('section-select').classList.contains('loading-work')) return;   // still looking for their work
     level = level || nextLevelFor(this.studentName, section);
     // The gates (see PASS_PCT): no try limit, but a level waits for 70% on the one under it.
     // The Teacher PIN lets this one student past.
