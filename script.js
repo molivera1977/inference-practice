@@ -511,11 +511,13 @@ function allSectionsCompletedOnce(name) {
 }
 
 /* No try limit — a learning site. Every try is still its own row (Attempt 1, 2, 3 …).
-   ── THE GATES (Marcos 10/20: "Everyone climbs from Level 1") ──
-   Each activity has Level 1 to 6. A level opens when the level under it has a finished
-   try at 70% or better (the BEST try counts). An activity's Level 1 opens when EVERY
-   activity before it has Level 1 at 70% (the strict rule R.A.D. Practice uses), so a
-   student moves on to the next idea without first climbing every reading level.
+   ── THE GATES (Marcos 10/20: "Everyone climbs from Level 1"; 11/11: "enforce the merri-go-round") ──
+   One path in order, the class's order (FLOW, below): every activity at Level 1, then every activity at
+   Level 2, … up to Level 6. A level opens when EVERY step before it on that path has a finished try at 70%
+   or better (the BEST try counts). So Level 2 of anything waits for all eight Level 1s, and the menu's list
+   follows the same order as ▶ Continue — it used to let a student climb one activity's levels ahead of the
+   others (11/10: Level 2 of two activities before Nonfiction and Put It Together Level 1). A level passed
+   before stays passed; a new try at it waits its turn. The same rule as Parts of Speech HQ.
    Scores are remembered on the device. The Teacher PIN lets one student past a gate.
    The share link and Teacher Access have no gates. */
 const PASS_PCT = 70;
@@ -539,14 +541,10 @@ function nextActivity(section) {
 /* Why this level is not open for this student yet ('' = it is open): names the FIRST gap */
 function gateWait(name, section, level) {
   if (SHARE_MODE || reviewMode) return '';
-  const keys = Object.keys(ACTIVITIES);
-  const at = keys.indexOf(section);
+  const at = FLOW.findIndex(st => st.section === section && st.level === (level || 1));
   for (let i = 0; i < at; i++) {
-    const k = keys[i];
-    if (!passed(name, k, 1)) return `Get ${needFor(k, 1)} of ${sectionBank(k, 1).length} on ${ACTIVITIES[k].short} Level 1 first`;
-  }
-  for (let L = 1; L < (level || 1); L++) {
-    if (!passed(name, section, L)) return `Get ${needFor(section, L)} of ${sectionBank(section, L).length} on Level ${L} first`;
+    const st = FLOW[i];
+    if (!passed(name, st.section, st.level)) return `Get ${needFor(st.section, st.level)} of ${sectionBank(st.section, st.level).length} on ${ACTIVITIES[st.section].short} Level ${st.level} first`;
   }
   return '';
 }
@@ -646,7 +644,7 @@ function applyLocks(name) {
       // the ONE level button that is the student's next step pulses, with ▶ Continue (Marcos 10/22)
       chip.classList.toggle('is-next', !!st && st.section === act.key && st.level === n);
       chip.textContent = wait ? `🔒 Level ${n}` : passed(name, act.key, n) ? `✅ Level ${n}` : `Level ${n}`;
-      chip.title = wait ? wait : best ? `Best: ${best.score} of ${best.total}` : 'Not tried yet';
+      chip.title = wait ? (best ? `Best: ${best.score} of ${best.total} · next try: ` : '') + wait : best ? `Best: ${best.score} of ${best.total}` : 'Not tried yet';
       chip.setAttribute('aria-label', `Level ${n}. ${chip.title}.`);
     });
   });
