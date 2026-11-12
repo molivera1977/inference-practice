@@ -325,6 +325,16 @@ let activeSpeakBtn   = null;
 let reviewMode       = false;   // the old Teacher Access look; nothing turns it on since the Teacher screen (11/5)
 let reviewAutoRun    = false;
 
+/* ── PICK UP ON ANY COMPUTER (Marcos 11/12: "the same experience that they have at home … like they were logging
+   on at school") — spot-sync.js keeps a copy of this site's save (STORAGE_KEY) on the sheet and, at sign-in,
+   brings back the copy that is further along, so "Welcome back! Resume Where I Left Off" shows on any computer. */
+if (window.SpotSync) SpotSync.init({
+  site: 'inference-practice', key: STORAGE_KEY, url: SHEET_URL,
+  who: () => loggedInName,
+  skip: () => SHARE_MODE || reviewMode,
+  usable: s => !!ACTIVITIES[s.currentSection] && Array.isArray(s.currentBank) && s.currentBank.length > 0
+});
+
 /* 🧑‍🏫 THE TEACHER SCREEN (Marcos 11/5: "make sure the inferences site has the new teacher access mode" — Parts of
    Speech HQ's screen, 10/28, and the Lab's, 10/30): Teacher Access asks the PIN in the page, then ONE screen: an
    activity and a level — any of them, nothing passed first. The PIN lasts for this tab (sessionStorage) until
@@ -1162,22 +1172,26 @@ const app = {
       if (loginCard) loginCard.classList.add('hidden');
       document.getElementById('section-select').classList.remove('hidden');
       applyLocks(displayName);
-      this.checkResume();
+      document.getElementById('resume-container').classList.add('hidden');   // shown once the sheet answers
       this.waitForSheetWork(displayName);
       const rmBtn = document.getElementById('review-mode-btn');
       if (rmBtn) rmBtn.classList.toggle('hidden', displayName !== 'Mr. O (Teacher)');
     }
   },
 
-  /* The menu waits a moment while the sheet is asked for this student's work from other Chromebooks */
+  /* The menu waits a moment while the sheet is asked for this student's work from other Chromebooks:
+     their finished tries, and (11/12) their unfinished one — the resume card shows after both answers. */
   waitForSheetWork(name) {
     const menu = document.getElementById('section-select');
     const token = ++sheetProgressToken;
     menu.classList.add('loading-work');
-    loadSheetProgress(name).then(added => {
+    const spot = window.SpotSync ? SpotSync.restore(name) : Promise.resolve('skip');
+    Promise.all([loadSheetProgress(name), spot]).then(([added]) => {
       if (token !== sheetProgressToken) return;           // another student signed in meanwhile
       menu.classList.remove('loading-work');
-      if (added && loggedInName === name) applyLocks(name);
+      if (loggedInName !== name) return;
+      if (added) applyLocks(name);
+      this.checkResume();
     });
   },
 
