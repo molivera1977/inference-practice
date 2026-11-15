@@ -2378,7 +2378,9 @@ const app = {
     const rightText = q.choices[q.answer];
     const best = q.type === 'hot' || q.part === 'B'
       ? `The best sentence is: <strong>${quoted(rightText)}</strong>`
-      : `The best answer is: <strong>${escapeHtml(rightText.replace(/[.!?…]+$/, ''))}</strong>.`;
+      // the stop inside the bold answer: a stop after the tag is a word of its own, which the voice skips (spokenOf),
+      // so the answer ran into the why with no pause ("cheerful Cheerful means…"; Ava, 11/14)
+      : `The best answer is: <strong>${escapeHtml(rightText.replace(/[.!?…]+$/, ''))}.</strong>`;
     const note = !correct && pickIdx != null ? (q.notes && q.notes[pickIdx]) || '' : '';
     const holdWhy = q.part === 'A' && pickIdx != null;
     const why = holdWhy ? 'You will see why after Part B.' : (q.why || '');
